@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+    <link rel="stylesheet" href="./public/lib/bootstrap-5.3.5-dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="login-background">
+        <div class="container text-dark">
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                        <div class="card-header">
+                            <h3 class="text-center font-weight-light my-4">Crear una cuenta</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="registerForm" onsubmit="Registro(event); return false;">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3 mb-md-0">
+                                            <input class="form-control" id="txt_Nombre_Registro" type="text" required />
+                                            <label>Primer nombre</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input class="form-control" id="txt_apellido_Registro" type="text" required />
+                                            <label>Primer Apellido</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input class="form-control" id="txt_email_Registro" type="email" required />
+                                    <label>Correo Electrónico</label>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="fecha">Fecha Nacimiento</label>
+                                    <input type="date" id="fecha" class="form-control" min="1995-07-08" max="2010-07-08" required>
+
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Género</label><br>
+                                    <input type="radio" name="genero" value="Masculino" required> Masculino
+                                    <input type="radio" name="genero" value="Femenino"> Femenino
+                                    <input type="radio" name="genero" value="Otro"> Otro
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Año</label>
+                                    <select id="select_anio" class="form-control" required>
+                                        <option value="">Selecciona un año</option>
+                                        <option value="Primero">Primero</option>
+                                        <option value="Segundo">Segundo</option>
+                                        <option value="Tercero">Tercero</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Localización</label><br>
+                                    <input type="text" id="txt_Latitud" class="form-control mb-2" placeholder="Latitud" readonly style="display: none;" required>
+                                    <input type="text" id="txt_Longitud" class="form-control mb-2" placeholder="Longitud" readonly style="display: none;" required>
+                                    <button type="button" class="btn btn-dark" onclick="Localizacion()">Obtener Localización</button>
+                                    <div id="map"></div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Foto de estudiante</label><br>
+                                    <button type="button" id="btn_hc" class="btn btn-dark" onclick="habilitar_Camara()">Habilitar cámara</button>
+                                    <section id="camara_foto" style="display: none;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <video id="my_camara" width="100%" autoplay muted></video>
+                                                <button type="button" id="video" onclick="tomarFoto()" class="btn btn-primary mt-2">Tomar foto</button>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <canvas id="foto" width="420" height="300" style="border: 2px solid black;"></canvas>
+                                            </div>
+                                        </div>
+                                        <input type="text" id="foto_estudiante" readonly style="display: none;" value=" ">
+                                    </section>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3 mb-md-0">
+                                            <input class="form-control" id="txt_password_Registro" type="password" required />
+                                            <label>Contraseña</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3 mb-md-0">
+                                            <input class="form-control" id="inputPasswordConfirm" type="password" required />
+                                            <label>Confirmar contraseña</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="telefono" class="form-label fw-semibold">Número de Celular</label>
+    <div class="input-group">
+        <select class="form-select" id="codigo_pais" name="codigo_pais" required>
+            <option value="+1">US +1</option>
+            <option value="+52">MX +52</option>
+            <option value="+57">CO +57</option>
+            <option value="+593">Ecu +593</option>
+        </select>
+      <input type="tel" class="form-control" id="telefono" name="telefono"
+       placeholder="Número de celular" required pattern="[0-9]{9}" maxlength="9"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                </div>
+
+                                <div class="mt-4 mb-0">
+                                    <input type="submit" class="btn btn-dark btn-login" value="Crear cuenta" />
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="card-footer text-center py-3">
+                            <div class="small">
+                                <a href="#" onclick="cargarPaginas('login')" class="link-accent">¿Tienes una cuenta? Inicia sesión.</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="login-footer"></div>
+    </div>
+    <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registroModalLabel">Aviso</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body" id="registroModalBody">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="cargarPaginas('index')">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+<script src="./public/lib/bootstrap-5.3.5-dist/js/bootstrap.min.js"></script>
+</html>

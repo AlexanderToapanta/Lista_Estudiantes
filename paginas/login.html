@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+    
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2eafc 100%);
+        }
+
+        .login-background {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            padding: 2.5rem 2rem 1.5rem 2rem;
+            border: 1.5px solid #e3e3e3;
+            transition: box-shadow 0.3s;
+        }
+
+        .login-card:hover {
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.22);
+        }
+
+        .card-header {
+            background: none;
+            border-bottom: none;
+            text-align: center;
+        }
+
+        .input-group-text {
+            background: #f3f6fa !important;
+            border-right: 0;
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, .15);
+        }
+
+        .btn-login {
+            width: 100%;
+            font-weight: bold;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .btn-login:hover {
+            background: #0d6efd;
+            color: #fff;
+        }
+
+        .login-footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #888;
+        }
+
+        .link-accent {
+            color: #0d6efd;
+        }
+
+        .link-accent:hover {
+            color: #0a58ca;
+            text-decoration: underline;
+        }
+
+        #passwordToggle {
+            border-left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-background">
+        <div class="container">
+            <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
+                <div class="col-md-7 col-lg-5">
+                    <div class="login-card mx-auto">
+                        <div class="text-center mb-3">
+                            <i class="fas fa-user-circle fa-3x text-primary"></i>
+                        </div>
+                        <div class="card-header">
+                            <h3 class="mb-1 fw-bold">Iniciar Sesión</h3>
+                            <p class="text-muted mb-0">Bienvenido, ingresa tus datos</p>
+                        </div>
+                        <div class="card-body text-dark">
+                            <form id="loginForm" onsubmit="return Login(event)">
+                                <div class="mb-4">
+                                    <label for="inputEmail" class="form-label fw-bold">Correo electrónico</label>
+                                    <div class="input-group input-group-lg">
+                                        <span class="input-group-text bg-light"><i class="fas fa-envelope"></i></span>
+                                        <input type="email" class="form-control form-control-lg" id="inputEmail"
+                                            placeholder="Correo electrónico" required>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="inputPassword" class="form-label fw-bold">Contraseña</label>
+                                    <div class="input-group input-group-lg">
+                                        <span class="input-group-text bg-light"><i class="fas fa-lock"></i></span>
+                                        <input type="password" class="form-control form-control-lg" id="inputPassword"
+                                            placeholder="Contraseña" required>
+                                        <button class="btn btn-outline-secondary" type="button" id="passwordToggle">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" id="inputRememberPassword" type="checkbox" value=""
+                                        onclick="togglePassword()">
+                                    <label class="form-check-label" for="inputRememberPassword">Mostrar
+                                        Contraseña</label>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                    <a class="small text-decoration-none link-accent" href="#">¿Olvidaste tu
+                                        contraseña?</a>
+                                    <button type="submit" class="btn btn-dark btn-login">
+                                        <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer text-center py-3">
+                            <div class="small">
+                                <a href="#" class="link-accent" onclick="cargarPaginas('Registar')">
+                                    ¿Necesitas una cuenta? ¡Regístrate!
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="login-footer">
+        </div>
+    </div>
+</body>
+
+</html>
