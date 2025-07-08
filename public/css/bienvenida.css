@@ -40,6 +40,16 @@
     color: rgba(255, 255, 255, 0.75);
 }
 
+/* Animación de agrandar cards al pasar el mouse */
+#seccionesColegio .card {
+  transition: transform 0.3s cubic-bezier(.4,2,.6,1), box-shadow 0.3s;
+}
+
+#seccionesColegio .card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+
 
 @media (max-width: 768px) {
     #infraestructura {
