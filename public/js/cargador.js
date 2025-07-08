@@ -19,8 +19,8 @@ function cargarPaginas(url_pagina) {
       document.getElementById("contenido").innerHTML = data;
 
       setTimeout(() => {
-        if (url_pagina === "carrito" && typeof cargarCarrito === "function") {
-          cargarCarrito();
+        if (url_pagina === "vista_admin_estu" && typeof mostrarEstudiantesGuardados === "function") {
+          mostrarEstudiantesGuardados();
         } else if (url_pagina === "index" && typeof mostrarProductosGuardados === "function") {
             mostrarProductosAleatorios();
         } else if (url_pagina === "Todoslosproductos" && typeof mostraSegunTipo === "function") {

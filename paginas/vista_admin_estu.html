@@ -1,0 +1,22 @@
+<div class="container my-4">
+  <div class="row align-items-center gy-3">
+
+    <div class="col-md-9">
+      <div class="d-flex flex-wrap gap-2">
+        <select id="criterioBusqueda" class="form-select" style="max-width: 200px;">
+          <option value="id">Buscar por ID</option>
+          <option value="nombre">Buscar por Nombre</option>
+            <option value="apellido">Buscar por Apellido</option>
+            <option value="anio">Buscar por Año</option>
+            <option value="cedula">Buscar por Cédula</option>
+            <option value="email">Buscar por Email</option>
+        </select>
+        <input type="text" id="valorBusqueda" class="form-control" placeholder="Ingrese el valor a buscar" style="max-width: 300px;" />
+        <button class="btn btn-success" onclick=" buscar_estudiante()">Buscar</button>
+        <button class="btn btn-secondary" onclick="mostrarEstudiantesGuardados()">Limpiar búsqueda</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="contenedor-estudiantes-dinamicos" class="row gx-4 gx-lg-5 justify-content-center row-cols-2 row-cols-md-3 row-cols-xl-4"></div>

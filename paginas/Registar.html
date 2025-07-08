@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOGIN</title>
-    <link rel="stylesheet" href="./public/lib/bootstrap-5.3.5-dist/css/bootstrap.min.css">
+ 
 </head>
 
 <body>
@@ -88,19 +88,19 @@
                                 </div>
 
                                 <div class="row mb-3">
-                                    <div class="col-md-6">
+                                    
                                         <div class="form-floating mb-3 mb-md-0">
                                             <input class="form-control" id="txt_password_Registro" type="password" required />
                                             <label>Contraseña</label>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating mb-3 mb-md-0">
-                                            <input class="form-control" id="inputPasswordConfirm" type="password" required />
-                                            <label>Confirmar contraseña</label>
-                                        </div>
-                                    </div>
+                                  
                                 </div>
+                                <div class="form-floating mb-3">
+    <input class="form-control" id="txt_cedula" type="text" pattern="[0-9]{10}" maxlength="10" required
+        oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+    <label>Cédula</label>
+</div>
+
 
                                 <div class="mb-3">
                                     <label for="telefono" class="form-label fw-semibold">Número de Celular</label>
@@ -152,5 +152,5 @@
 </div>
 </body>
 
-<script src="./public/lib/bootstrap-5.3.5-dist/js/bootstrap.min.js"></script>
+
 </html>

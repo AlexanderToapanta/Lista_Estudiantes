@@ -28,21 +28,29 @@ function Localizacion() {
     }
 }
 
-function Mapa() {
-    let estudiantes = JSON.parse(localStorage.getItem('estudiantes')) || [];
-    let email = document.getElementById('email_usuer').textContent.trim().toLowerCase();
-
-    let estudiante = estudiantes.find(e => e.email.toLowerCase() === email);
+function Mapa(id) {
+    const estudiantes = JSON.parse(localStorage.getItem('estudiantes')) || [];
+    const estudiante = estudiantes.find(e => e.id === id);
 
     if (!estudiante) {
         alert('Estudiante no encontrado');
         return;
     }
 
-    let latitud = parseFloat(estudiante.latitud);
-    let longitud = parseFloat(estudiante.longitud);
+    const latitud = parseFloat(estudiante.latitud);
+    const longitud = parseFloat(estudiante.longitud);
 
-    var map = L.map('map').setView([latitud, longitud], 13);
+    const mapaId = `map-${id}`;
+    const contenedor = document.getElementById(mapaId);
+
+    if (!contenedor) {
+        console.warn(`Contenedor con ID '${mapaId}' no encontrado.`);
+        return;
+    }
+
+    contenedor.innerHTML = ''; // Limpia contenido previo
+
+    const map = L.map(mapaId).setView([latitud, longitud], 13);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -51,6 +59,8 @@ function Mapa() {
 
     L.marker([latitud, longitud])
         .addTo(map)
-        .bindPopup('Su ubicación actual es')
+        .bindPopup(`Ubicación de ${estudiante.nombre} ${estudiante.apellido}`)
         .openPopup();
 }
+
+
