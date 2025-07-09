@@ -1,0 +1,48 @@
+<div id="usuarios-container">
+   <div class="container my-4">
+  <div class="row align-items-center gy-2">
+    <div class="col-md-9">
+      <div class="d-flex flex-wrap gap-2 align-items-center">
+        <select id="criterioBusquedaFactura" class="form-select" style="max-width: 200px;">
+          <option value="nombre">Buscar por Nombre</option>
+          <option value="apellido">Buscar por Apellido</option>
+          <option value="email">Buscar por Email</option>
+        </select>
+        
+        <input type="text" id="valorBusquedaFactura" class="form-control" placeholder="Ingrese el valor" style="max-width: 300px;" />
+        <button class="btn btn-success" onclick="buscarusuarios()">Buscar</button>
+        <button class="btn btn-secondary" onclick="limpiarBusquedausuarios()">Limpiar</button>
+      </div>
+    </div>
+     <div id="usuarios-listado" class="row gx-4 gx-lg-5 justify-content-center row-cols-2 row-cols-md-3 row-cols-xl-4">
+    
+    </div>
+  </div>
+</div>
+
+<div id="modalEliminarUsuario" style="display:none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+  <div style="background:#fff; padding: 20px; border-radius: 8px; width: 300px;">
+    <h3>Eliminar Usuario</h3>
+    <p id="mensajeEliminarUsuario"></p>
+    <input type="hidden" id="correoEliminarUsuario" />
+    <div style="text-align: right;">
+      <button onclick="cerrarModalEliminarUsuario()" style="margin-right: 10px;">Cancelar</button>
+      <button onclick="eliminarUsuario()">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<div id="modalConfirmacionEliminar" style="display:none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+  <div style="background:#fff; padding: 20px; border-radius: 8px; width: 300px;">
+    <h4>¿Estás seguro de eliminar este usuario?</h4>
+    <div style="text-align: right; margin-top: 15px;">
+      <button onclick="cerrarModalConfirmacion()" style="margin-right: 10px;">Cancelar</button>
+      <button onclick="confirmarEliminarUsuario()">Aceptar</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+   
+  </div>

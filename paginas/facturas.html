@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Listado de Compras</title>
+  
+</head>
+<body>
+  <div id="compras-container">
+   <div class="container my-4">
+  <div class="row align-items-center gy-2">
+    <div class="col-md-9">
+      <div class="d-flex flex-wrap gap-2 align-items-center">
+        <select id="criterioBusquedaFactura" class="form-select" style="max-width: 200px;">
+          <option value="id">Buscar por ID</option>
+          <option value="nombre">Buscar por Nombre</option>
+          <option value="apellido">Buscar por Apellido</option>
+          <option value="email">Buscar por Email</option>
+        </select>
+        
+        <input type="text" id="valorBusquedaFactura" class="form-control" placeholder="Ingrese el valor" style="max-width: 300px;" />
+        <button class="btn btn-success" onclick="buscarFacturas()">Buscar</button>
+        <button class="btn btn-secondary" onclick="limpiarBusquedaFacturas()">Limpiar</button>
+      </div>
+    </div>
+    <div class="col-md-3 text-md-end text-center">
+      <button class="btn btn-primary w-100 w-md-auto" onclick="exportar()">Exportar</button>
+    </div>
+     <div id="facturas-listado">
+      <!-- Aquí se inyectan las facturas -->
+    </div>
+  </div>
+</div>
+
+   
+  </div>
+  <!-- Modal de Exportación -->
+<div id="modal-exportar" class="modal">
+  <div class="modal-contenido">
+    <span class="cerrar" onclick="cerrarModal()">&times;</span>
+    <h3>¿En qué formato desea exportar las facturas?</h3>
+    <div class="botones-formato">
+      <button onclick="exportarFacturas('pdf')">PDF</button>
+      <button onclick="exportarFacturas('excel')">Excel</button>
+      <button onclick="exportarFacturas('word')">Word</button>
+    </div>
+  </div>
+</div>
+
+
+  
+</body>
+</html>
