@@ -72,7 +72,7 @@ function Registro(event) {
         };
     });
 
-    let contadorId = parseInt(localStorage.getItem  ('contador_estudiantes')) || 1;
+    let contadorId = parseInt(localStorage.getItem('contador_estudiantes')) || 1;
 
     let estudiante = {
         id: contadorId,
