@@ -46,6 +46,7 @@ function mostrarEstudiantesGuardados() {
                     </div>
                     <div class="card-footer text-center">
                         <button class="btn btn-outline-primary btn-sm" onclick="Ingresar_Notas(${est.id})">Ingresar Notas</button>
+                        <button class="btn btn-outline-danger btn-sm" onclick="eliminarEstudiante(${est.id})">Eliminar</button>
                     </div>
                 </div>
             </div>
@@ -108,6 +109,7 @@ function mostrarEstudiantes(estudiantes) {
           </div>
           <div class="card-footer text-center">
             <button class="btn btn-outline-primary btn-sm" onclick="Ingresar_Notas(${est.id})">Ingresar Notas</button>
+            <button class="btn btn-outline-danger btn-sm" onclick="eliminarEstudiante(${est.id})">Eliminar</button>
           </div>
         </div>
       </div>
@@ -148,3 +150,80 @@ function buscar_estudiante() {
 
   mostrarEstudiantes(resultados);
 }
+
+let estudianteSeleccionadoId = null;
+
+function Ingresar_Notas(idEstudiante) {
+  estudianteSeleccionadoId = idEstudiante;
+  document.getElementById('materiaNombre').value = '';
+  document.getElementById('nota1').value = '';
+  document.getElementById('nota2').value = '';
+  document.getElementById('nota3').value = '';
+  document.getElementById('modalNotas').style.display = 'flex';
+}
+
+function cerrarModalNotas() {
+  document.getElementById('modalNotas').style.display = 'none';
+}
+
+function guardarNotasParaEstudiante() {
+  const materia = document.getElementById('materiaNombre').value.trim();
+  const nota1 = parseFloat(document.getElementById('nota1').value);
+  const nota2 = parseFloat(document.getElementById('nota2').value);
+  const nota3 = parseFloat(document.getElementById('nota3').value);
+
+  if (!materia || isNaN(nota1) || isNaN(nota2) || isNaN(nota3)) {
+    alert('Completa todos los campos correctamente.');
+    return;
+  }
+
+  const promedio = ((nota1 + nota2 + nota3) / 3).toFixed(2);
+
+  let estudiantes = JSON.parse(localStorage.getItem("estudiantes")) || [];
+  const index = estudiantes.findIndex(e => e.id == estudianteSeleccionadoId);
+
+  if (index === -1) {
+    alert("Estudiante no encontrado.");
+    cerrarModalNotas();
+    return;
+  }
+
+  if (!estudiantes[index].materias) {
+    estudiantes[index].materias = {};
+  }
+
+  estudiantes[index].materias[materia] = {
+    notas: {
+      primerParcial: [nota1],
+      segundoParcial: [nota2],
+      tercerParcial: [nota3]
+    },
+    promedio: parseFloat(promedio)
+  };
+
+  localStorage.setItem("estudiantes", JSON.stringify(estudiantes));
+  cerrarModalNotas();
+  mostrarEstudiantesGuardados();
+  alert('Notas guardadas correctamente.');
+}
+
+function eliminarEstudiante(idEstudiante) {
+  if (!confirm("¿Estás seguro de que deseas eliminar este estudiante? Esta acción no se puede deshacer.")) {
+    return;
+  }
+
+  let estudiantes = JSON.parse(localStorage.getItem("estudiantes")) || [];
+  const index = estudiantes.findIndex(e => e.id == idEstudiante);
+
+  if (index === -1) {
+    alert("Estudiante no encontrado.");
+    return;
+  }
+
+  estudiantes.splice(index, 1); // Elimina del array
+  localStorage.setItem("estudiantes", JSON.stringify(estudiantes)); // Guarda los cambios
+
+  alert("Estudiante eliminado correctamente.");
+  mostrarEstudiantesGuardados(); // Actualiza la vista
+}
+
