@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    
+</head>
+<body>
+    <div class="card shadow">
+        <div class="card-header">
+            Iniciar Sesión
+        </div>
+        <form onsubmit="return false;">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="txt_email_login" placeholder="Correo electrónico" required>
+                <label for="txt_email">Correo electrónico</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="txt_password_login" placeholder="Contraseña" required>
+                <label for="txt_password">Contraseña</label>
+            </div>
+           <div class="row">
+            <div class="col-md-2">
+                 <button class="btn btn-success" type="submit" onclick="Login()">
+                Iniciar Sesión
+            </button>
+            </div>
+            <div class="col-md-2">
+                 <button class="btn btn-info" type="submit" onclick="cargarPaginas('resgistro')">
+                Registrarse
+            </button>
+            </div>
+           </div>
+        </form>
+    </div>
+    <script src="../js/scripts.js"></script>
+    <script src="../js/cargador.js"></script>
+</body>
+</html>

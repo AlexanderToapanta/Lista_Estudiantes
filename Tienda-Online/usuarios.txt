@@ -1,0 +1,10 @@
+admin:
+correo:ajtoapanta6@espe.edu.ec
+contrasenia: 12345
+
+usuarios:
+correo:alexandertoapanta05@gmail.com
+contrasenia: 123
+
+correo:dantesparda@gmail.com
+contrasenia: 456

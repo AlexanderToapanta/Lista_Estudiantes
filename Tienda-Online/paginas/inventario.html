@@ -1,0 +1,112 @@
+<!-- Botón para abrir el modal -->
+<div class="container my-4">
+  <div class="row align-items-center gy-3">
+    <!-- Sección de búsqueda -->
+    <div class="col-md-9">
+      <div class="d-flex flex-wrap gap-2">
+        <select id="criterioBusqueda" class="form-select" style="max-width: 200px;">
+          <option value="id">Buscar por ID</option>
+          <option value="nombre">Buscar por Nombre</option>
+          <option value="tipo">Buscar por Tipo</option>
+        </select>
+        <input type="text" id="valorBusqueda" class="form-control" placeholder="Ingrese el valor a buscar" style="max-width: 300px;" />
+        <button class="btn btn-success" onclick="buscarProducto()">Buscar</button>
+        <button class="btn btn-secondary" onclick="mostrarProductosGuardados()">Limpiar búsqueda</button>
+      </div>
+    </div>
+
+    <!-- Botón agregar -->
+    <div class="col-md-3 text-md-end text-center">
+      <button class="btn btn-primary w-100 w-md-auto" onclick="abrirModalProducto()">Agregar producto</button>
+    </div>
+  </div>
+</div>
+
+<div id="contenedor-productos-dinamicos" class="row gx-4 gx-lg-5 justify-content-center row-cols-2 row-cols-md-3 row-cols-xl-4"></div>
+
+<div id="modalProducto" style="display:none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+  <div style="background:#fff; padding: 20px; border-radius: 8px; width: 300px;">
+    <h3>Agregar Producto</h3>
+    <input type="text" id="nombreProducto" placeholder="Nombre del producto" style="width: 100%; margin-bottom: 8px;" />
+    <input type="number" id="cantidadProducto" placeholder="Stock" style="width: 100%; margin-bottom: 8px;" min="0" />
+    <input type="number" id="precioProducto" placeholder="Precio" style="width: 100%; margin-bottom: 8px;" min="0" step="0.01" />
+
+    <!-- Reemplazo del input por un select -->
+    <select id="tipoProducto" style="width: 100%; margin-bottom: 8px;">
+  <option value="" selected disabled>Selecciona una categoría</option>
+  <option value="aventura">Aventura</option>
+  <option value="hackandslash">Hack and Slash</option>
+  <option value="terror">Terror</option>
+  <option value="nintendo">Nintendo</option>
+  <option value="play">Play</option>
+  <option value="xbox">Xbox</option>
+  <option value="mandos">Mandos</option>
+  <option value="audifonos">Audífonos</option>
+  <option value="cargadores">Cargadores</option>
+</select>
+
+
+
+
+    <input type="file" id="imagenProducto" accept="image/*" style="width: 100%; margin-bottom: 12px;" />
+    
+    <div style="text-align: right;">
+      <button onclick="cerrarModalProducto()" style="margin-right: 10px;">Cancelar</button>
+      <button onclick="guardarProducto()">Guardar</button>
+    </div>
+  </div>
+</div>
+<!-- Modal Eliminar Producto -->
+<div id="modalEliminarProducto" style="display:none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+  <div style="background:#fff; padding: 20px; border-radius: 8px; width: 300px;">
+    <h3>Eliminar Producto</h3>
+    <p id="mensajeEliminarProducto"></p>
+    <input type="hidden" id="idEliminarProducto" />
+    <div style="text-align: right;">
+      <button onclick="cerrarModalEliminarProducto()" style="margin-right: 10px;">Cancelar</button>
+      <button onclick="eliminarProducto()">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de confirmación -->
+<div id="modalConfirmacionEliminar" style="display:none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+  <div style="background:#fff; padding: 20px; border-radius: 8px; width: 300px;">
+    <h4>¿Estás seguro de eliminar este producto?</h4>
+    <div style="text-align: right; margin-top: 15px;">
+      <button onclick="cerrarModalConfirmacion()" style="margin-right: 10px;">Cancelar</button>
+      <button onclick="confirmarEliminarProducto()">Aceptar</button>
+    </div>
+  </div>
+</div>
+
+<div id="modalActualizarProducto" style="display:none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+  <div style="background:#fff; padding: 20px; border-radius: 8px; width: 300px;">
+    <h3>Actualizar Producto</h3>
+    <input type="text" id="nombreActualizarProducto" placeholder="Nombre del producto a actualizar" style="width: 100%; margin-bottom: 8px;" />
+    <input type="number" id="cantidadActualizarProducto" placeholder="Nueva cantidad" style="width: 100%; margin-bottom: 8px;" min="0" />
+    <input type="number" id="precioActualizarProducto" placeholder="Nuevo precio" style="width: 100%; margin-bottom: 8px;" min="0" step="0.01" />
+
+    <!-- Reemplazo del input por un select -->
+    <select id="tipoActualizarProducto" style="width: 100%; margin-bottom: 8px;">
+      <option value="" selected disabled>Selecciona una categoría</option>
+      <option value="aventura">Aventura</option>
+      <option value="hackandslash">Hack and Slash</option>
+      <option value="terror">Terror</option>
+      <option value="nintendo">Nintendo</option>
+      <option value="play">Play</option>
+      <option value="xbox">Xbox</option>
+      <option value="mandos">Mandos</option>
+      <option value="audifonos">Audífonos</option>
+      <option value="cargadores">Cargadores</option>
+    </select>
+
+    <input type="file" id="imagenActualizarProducto" accept="image/*" style="width: 100%; margin-bottom: 12px;" />
+    
+    <div style="text-align: right;">
+      <button onclick="cerrarModalActualizarProducto()" style="margin-right: 10px;">Cancelar</button>
+      <button onclick="actualizarProducto(this)">Actualizar</button>
+    </div>
+  </div>
+</div>
+
