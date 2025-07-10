@@ -1,87 +1,111 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Método de Pago</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Método de Pago</title>
+  <link rel="stylesheet" href="../public/css/facturacion.css">
 </head>
+
 <body>
-    <div id="payment-container">
-        <h1 id="payment-title">Método de pago</h1>
-        
-      <select id="payment-method" onchange="verificarMetodoPago(this)">
-  <option value="">Seleccione un método de pago</option>
-  <option value="tarjeta">Tarjeta de crédito/débito</option>
-  <option value="paypal">PayPal</option>
-  <option value="transferencia">Transferencia bancaria</option>
-</select>
+  <div id="payment-container">
+    <h1 id="payment-title">Método de pago</h1>
 
-<!-- Modal -->
-<div id="tarjeta-modal" class="modal" style="display: none;">
-  <div class="modal-contenido">
-    <span class="cerrar" onclick="cerrarModalTarjeta()">&times;</span>
-    <h2>Datos de la Tarjeta</h2>
+    <select id="payment-method" onchange="verificarMetodoPago(this)">
+      <option value="">Seleccione un método de pago</option>
+      <option value="tarjeta">Tarjeta de crédito/débito</option>
+      <option value="paypal">PayPal</option>
+      <option value="transferencia">Transferencia bancaria</option>
+    </select>
+
+    <!-- Modal -->
+    <div id="tarjeta-modal" class="modal" style="display: none;">
+      <div class="modal-contenido">
+        <span class="cerrar" onclick="cerrarModalTarjeta()">&times;</span>
+        <h2>Datos de la Tarjeta</h2>
+
+        <div class="form-group">
+          <label for="numero-tarjeta">Número de tarjeta</label>
+          <input type="text" id="numero-tarjeta" maxlength="19" placeholder="XXXX XXXX XXXX XXXX">
+        </div>
+        <div class="form-group">
+          <label for="nombre-tarjeta">Nombre del titular</label>
+          <input type="text" id="nombre-tarjeta">
+        </div>
+        <div class="form-group">
+          <label for="fecha-exp">Fecha de vencimiento</label>
+          <input type="month" id="fecha-exp">
+        </div>
+        <div class="form-group">
+          <label for="cvv">CVV</label>
+          <input type="password" id="cvv" maxlength="4">
+        </div>
+
+        <button id="confirmar-tarjeta">Confirmar</button>
+      </div>
+    </div>
+
+
+
+    <div id="billing-info-title">
+      <i class="bi bi-person-vcard"></i>
+      Información de factura
+    </div>
 
     <div class="form-group">
-      <label for="numero-tarjeta">Número de tarjeta</label>
-      <input type="text" id="numero-tarjeta" maxlength="19" placeholder="XXXX XXXX XXXX XXXX">
+      <label for="nombre">
+        <i class="bi bi-person"></i> Nombre
+      </label>
+      <input type="text" id="nombre" name="nombre" class="payment-input" placeholder="Ej: Juan">
     </div>
+
     <div class="form-group">
-      <label for="nombre-tarjeta">Nombre del titular</label>
-      <input type="text" id="nombre-tarjeta">
+      <label for="apellido">
+        <i class="bi bi-person"></i> Apellido
+      </label>
+      <input type="text" id="apellido" name="apellido" class="payment-input" placeholder="Ej: Pérez">
     </div>
+
     <div class="form-group">
-      <label for="fecha-exp">Fecha de vencimiento</label>
-      <input type="month" id="fecha-exp">
+      <label for="codigo-postal">
+        <i class="bi bi-geo"></i> Código postal
+      </label>
+      <input type="text" id="codigo-postal" name="codigo-postal" class="payment-input" placeholder="Ej: 12345">
     </div>
+
     <div class="form-group">
-      <label for="cvv">CVV</label>
-      <input type="password" id="cvv" maxlength="4">
+      <label for="direccion">
+        <i class="bi bi-house"></i> Dirección
+      </label>
+      <input type="text" id="direccion" name="direccion" class="payment-input" placeholder="Calle, número, colonia">
+      <div class="d-flex gap-2 mt-2">
+        <button type="button" class="btn btn-dark" style="flex:1;" onclick="Localizacion()">
+          <i class="bi bi-geo-alt"></i> Obtener Localización
+        </button>
+      </div>
+      <input type="text" id="txt_Latitud" class="form-control mb-2 mt-2" placeholder="Latitud" readonly
+        style="display: none;">
+      <input type="text" id="txt_Longitud" class="form-control mb-2" placeholder="Longitud" readonly
+        style="display: none;">
+      <div id="map" class="mt-2"></div>
     </div>
-    
-    <button id="confirmar-tarjeta">Confirmar</button>
+
+    <div class="form-group">
+      <label for="telefono">
+        <i class="bi bi-telephone"></i> Teléfono
+      </label>
+      <input type="tel" id="telefono" name="telefono" class="payment-input" placeholder="Ej: 5551234567">
+    </div>
+
+
+    <button id="pay-button" onclick="realizarPago()">Pagar</button>
   </div>
-</div>
-
-
-        
-        <div id="billing-info-title">Información de factura</div>
-        
-        <div class="form-group">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" name="nombre" class="payment-input">
-        </div>
-        
-        <div class="form-group">
-            <label for="apellido">Apellido</label>
-            <input type="text" id="apellido" name="apellido" class="payment-input">
-        </div>
-        
-        <div class="form-group">
-            <label for="codigo-postal">Código postal</label>
-            <input type="text" id="codigo-postal" name="codigo-postal" class="payment-input">
-        </div>
-        
-        <div class="form-group">
-            <label for="direccion">Dirección</label>
-            <input type="text" id="txt_Latitud" class="form-control mb-2" placeholder="Latitud" readonly style="display: none;" required>
-            <input type="text" id="txt_Longitud" class="form-control mb-2" placeholder="Longitud" readonly style="display: none;" required>
-            <button type="button" class="btn btn-dark" onclick="Localizacion()">Obtener Localización</button>
-            <div id="map"></div>
-        </div>
-        
-        <div class="form-group">
-            <label for="telefono">Teléfono</label>
-            <input type="tel" id="telefono" name="telefono" class="payment-input">
-        </div>
-
-        
-        <button id="pay-button" onclick="realizarPago()">Pagar</button>
-    </div>
-    <!-- Modal de tarjeta -->
+  <!-- Modal de tarjeta -->
 
 
 
 
 </body>
+
 </html>

@@ -1,0 +1,100 @@
+/* Barra de navegación con fondo azul degradado */
+.bg-light {
+    background: linear-gradient(90deg, #1565c0 70%, #42a5f5 100%) !important;
+    box-shadow: 0 2px 8px rgba(21,101,192,0.08);
+}
+
+/* Marca de la tienda */
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #fff !important;
+    letter-spacing: 1px;
+}
+
+/* Enlaces del menú */
+.nav-link {
+    color: #e3f2fd !important;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-link.active, .nav-link:focus, .nav-link:hover {
+    color: #fff !important;
+    text-shadow: 0 2px 8px rgba(21,101,192,0.15);
+}
+
+/* Menú desplegable */
+.dropdown-menu {
+    background: #e3f2fd;
+    border-radius: 0.5rem;
+    border: none;
+    box-shadow: 0 2px 8px rgba(21,101,192,0.10);
+}
+
+.dropdown-item {
+    color: #1565c0;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    background: #bbdefb;
+    color: #0d47a1;
+}
+
+#btn_carrito {
+    border-radius: 2rem;
+    border: 2px solid #1976d2;
+    color: #1976d2;
+    background: #fff;
+    font-weight: 600;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+#btn_carrito:hover, #btn_carrito:focus {
+    background: #1976d2;
+    color: #fff;
+    border-color: #1565c0;
+}
+
+#btn_carrito .badge {
+    background: #1976d2 !important;
+    color: #fff !important;
+}
+
+#btn_Login {
+    color: #fff !important;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+#btn_Login:hover, #btn_Login:focus {
+    color: #bbdefb !important;
+    text-decoration: underline;
+}
+
+/* Íconos del menú */
+.bi-cart-fill, .bi {
+    font-size: 1.2em;
+    vertical-align: middle;
+}
+
+/* Responsive: mejora el fondo del menú móvil */
+.navbar-toggler {
+    border-color: #bbdefb;
+}
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(21,101,192, 0.7)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1030; /* para que quede sobre el contenido */
+}
+body {
+    padding-top: 70px; /* Ajusta según la altura de tu menú */
+}
