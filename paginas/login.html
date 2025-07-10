@@ -1,40 +1,103 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
-    
+
+
+ <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2eafc 100%);
+        }
+
+        .login-background {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            padding: 2.5rem 2rem 1.5rem 2rem;
+            border: 1.5px solid #e3e3e3;
+            transition: box-shadow 0.3s;
+        }
+
+        .login-card:hover {
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.22);
+        }
+
+        .card-header {
+            background: none;
+            border-bottom: none;
+            text-align: center;
+        }
+
+        .input-group-text {
+            background: #f3f6fa !important;
+            border-right: 0;
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, .15);
+        }
+
+        .btn-login {
+            width: 100%;
+            font-weight: bold;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .btn-login:hover {
+            background: #0d6efd;
+            color: #fff;
+        }
+
+        .login-footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #888;
+        }
+
+        .link-accent {
+            color: #0d6efd;
+        }
+
+        .link-accent:hover {
+            color: #0a58ca;
+            text-decoration: underline;
+        }
+
+        #passwordToggle {
+            border-left: 0;
+        }
+    </style>
 </head>
-<body>
-    <div class="card shadow">
-        <div class="card-header">
-            Iniciar Sesión
-        </div>
-        <form onsubmit="return false;">
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="txt_email_login" placeholder="Correo electrónico" required>
-                <label for="txt_email">Correo electrónico</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="txt_password_login" placeholder="Contraseña" required>
-                <label for="txt_password">Contraseña</label>
-            </div>
-           <div class="row">
-            <div class="col-md-2">
-                 <button class="btn btn-success" type="submit" onclick="Login()">
-                Iniciar Sesión
-            </button>
-            </div>
-            <div class="col-md-2">
-                 <button class="btn btn-info" type="submit" onclick="cargarPaginas('resgistro')">
-                Registrarse
-            </button>
-            </div>
-           </div>
-        </form>
+<body class="login-background">
+  <div class="login-card">
+    <div class="card-header">
+      Iniciar Sesión
     </div>
-    <script src="../js/scripts.js"></script>
-    <script src="../js/cargador.js"></script>
-</body>
-</html>
+    <form onsubmit="return false;">
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control" id="txt_email_login" placeholder="Correo electrónico" required>
+        <label for="txt_email_login">Correo electrónico</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="txt_password_login" placeholder="Contraseña" required>
+        <label for="txt_password_login">Contraseña</label>
+      </div>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+        <button class="btn btn-success btn-login" type="submit" onclick="Login()">
+          Iniciar Sesión
+        </button>
+        <button class="btn btn-info btn-login" type="submit" onclick="cargarPaginas('resgistro')">
+          Registrarse
+        </button>
+      </div>
+    </form>
+  </div>
+
+
