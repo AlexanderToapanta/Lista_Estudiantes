@@ -93,8 +93,9 @@
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1030; /* para que quede sobre el contenido */
+    z-index: 1000; 
 }
+
 body {
     padding-top: 70px; /* Ajusta según la altura de tu menú */
 }

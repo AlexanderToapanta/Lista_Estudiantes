@@ -9,6 +9,36 @@ function verificarMetodoPago(selectElement) {
     modal.style.display = "none";
   }
 }
+function verificarMetodoPago(selectElement) {
+  const metodo = selectElement.value;
+
+  
+  const modalTarjeta = document.getElementById("tarjeta-modal");
+  const modalTransferencia = document.getElementById("transferencia-modal");
+  const paypalFrame = document.getElementById("paypal-frame");
+
+
+  modalTarjeta.style.display = "none";
+  modalTransferencia.style.display = "none";
+  paypalFrame.style.display = "none";
+
+  
+  if (metodo === "tarjeta") {
+    modalTarjeta.style.display = "block";
+  } else if (metodo === "transferencia") {
+    modalTransferencia.style.display = "block";
+  } else if (metodo === "paypal") {
+    paypalFrame.style.display = "block";
+  }
+}
+
+function cerrarModalTarjeta() {
+  document.getElementById("tarjeta-modal").style.display = "none";
+}
+
+function cerrarModalTransferencia() {
+  document.getElementById("transferencia-modal").style.display = "none";
+}
 
 function cerrarModalTarjeta() {
   document.getElementById("tarjeta-modal").style.display = "none";

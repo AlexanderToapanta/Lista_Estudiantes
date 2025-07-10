@@ -10892,7 +10892,7 @@ body {
     object-fit: cover; 
 }
 .section-box5 {
-    background-image: url('../public/img/fnd1.jpg');
+    background-image: url('../public/img/');
     background-size: cover;
     background-position: center;
     border-radius: 15px;

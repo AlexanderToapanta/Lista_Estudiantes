@@ -10892,15 +10892,76 @@ body {
     object-fit: cover; 
 }
 .section-box5 {
-    background-image: url('../public/img/fnd1.jpg');
-    background-size: cover;
-    background-position: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('../public/img/fondo_principal.jpg') center/cover no-repeat;
     border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    margin-bottom: 30px;
-    color: #fff;
+    padding: 60px 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
     position: relative;
     overflow: hidden;
+    text-align: center;
+}
+.section-box5 ::placeholder {
+  color: black;
+  opacity: 1; 
+}
+
+
+.section-box5 h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.section-box5 p {
+    font-size: 1rem;
+    color: #e0f7fa;
+}
+
+.section-box5 ul {
+    padding: 0;
+    margin: 0 auto;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.section-box5 ul li a img {
+    width: 40px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: brightness(0.95);
+}
+
+.section-box5 ul li a:hover img {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+.section-box5 .form-control,
+.section-box5 textarea {
+    background-color: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 0.5rem;
+    color: black;
+}
+
+.section-box5 .form-control:focus,
+.section-box5 textarea:focus {
+    box-shadow: 0 0 0 0.2rem rgba(66, 165, 245, 0.25);
+}
+.section-box5 .form-floating > label {
+  color: black;
+  opacity: 0.7; 
+}
+
+.section-box5 .form-floating > input:focus ~ label,
+.section-box5 .form-floating > textarea:focus ~ label {
+  color: #42a5f5; 
+  opacity: 1;
 }
 
