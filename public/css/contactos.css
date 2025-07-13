@@ -1,0 +1,153 @@
+#contacto {
+  position: relative;
+  background: url('../img/fndcont.jpg') center center / cover no-repeat fixed;
+  padding: 80px 0;
+  color: white;
+  overflow: hidden;
+}
+
+#contacto::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 24, 61, 0.85); 
+  z-index: 1;
+}
+
+#contacto .container {
+  position: relative;
+  z-index: 2;
+}
+
+
+#contacto h2 {
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 2.5rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+#contacto .divider {
+  width: 80px;
+  height: 4px;
+  background-color: #00aaff;
+  border: none;
+  margin: 0 auto 1rem;
+}
+
+#contacto p {
+  font-size: 1.1rem;
+  color: #d6e8ff;
+}
+
+#contacto img[alt="Logo"] {
+  filter: drop-shadow(0 0 5px #00ccff);
+  transition: transform 0.3s ease-in-out;
+}
+#contacto img[alt="Logo"]:hover {
+  transform: scale(1.05);
+}
+
+
+#contactCard {
+  background-color: #ffffff;
+  color: #001b3a;
+  border-radius: 20px;
+  padding: 40px 30px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease;
+}
+
+#contactCard:hover {
+  transform: translateY(-5px);
+}
+
+
+#contactCard label {
+  font-weight: 600;
+  color: #002e5f;
+  margin-bottom: 6px;
+}
+
+#contactCard input.form-control,
+#contactCard textarea.form-control {
+  border: 2px solid #d6e8ff;
+  background-color: #f0f8ff;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#contactCard input.form-control:focus,
+#contactCard textarea.form-control:focus {
+  border-color: #00aaff;
+  box-shadow: 0 0 10px #00aaff88;
+  background-color: #ffffff;
+  outline: none;
+}
+
+
+#contactCard p[id^="ms_"] {
+  margin-top: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-height: 1.2em;
+}
+
+#contactCard p[id^="ms_"].ok {
+  color: #0a8c3c;
+}
+
+#contactCard p[id^="ms_"].error {
+  color: #cc0000;
+}
+
+
+#submitButton {
+  background: linear-gradient(to right, #0077cc, #005fa3);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#submitButton:hover {
+  background: linear-gradient(to right, #005fa3, #003f73);
+  transform: scale(1.03);
+}
+
+#contacto h2 + ul {
+  margin-top: 1rem;
+}
+
+#contacto ul li a img {
+  border-radius: 50%;
+  background: #ffffff;
+  padding: 5px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 170, 255, 0.4);
+}
+
+#contacto ul li a img:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 15px rgba(0, 170, 255, 0.9);
+}
+
+
+@media (max-width: 576px) {
+  #contactCard {
+    padding: 25px 20px;
+  }
+
+  #contacto h2 {
+    font-size: 2rem;
+  }
+}
