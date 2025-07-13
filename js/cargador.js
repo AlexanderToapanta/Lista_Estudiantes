@@ -17,7 +17,6 @@ function cargarPaginas(url_pagina) {
     .then(res => res.text())
     .then(data => {
       document.getElementById("contenido").innerHTML = data;
-
       setTimeout(() => {
         if (url_pagina === "carrito" && typeof cargarCarrito === "function") {
           deshabilitar_Camara();
@@ -33,11 +32,13 @@ function cargarPaginas(url_pagina) {
         } else if (url_pagina === "inventario" && typeof inicializarStocks === "function") {
           mostrarProductosGuardados();
         } else if (url_pagina === "facturas" && typeof cargarFacturas === "function") {
-          cargarFacturas();  
-        }else if (url_pagina === "usuarios" && typeof mostrarUsuariosGuardados === "function") {
-           mostrarUsuariosGuardados(); 
+          cargarFacturas();
+        } else if (url_pagina === "usuarios" && typeof mostrarUsuariosGuardados === "function") {
+          mostrarUsuariosGuardados();
+        }else if (url_pagina === "contactos" && typeof mostrarNotificacion === "function") {
+          mostrarNotificacion();
         }
-        
+
       }, 100);
     });
 }
