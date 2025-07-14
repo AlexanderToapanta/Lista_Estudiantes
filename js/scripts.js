@@ -8,11 +8,19 @@ function agregarAlCarrito(boton) {
 
   const index = productos.findIndex(p => p.id === productoId);
   if (index === -1) {
-    alert("Producto no encontrado");
+    if (Notification.permission === "granted") {
+      stock();
+    } else {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          stock();
+        }
+      });
+    }
     return;
   }
 
- 
+
   let stockActual = parseInt(localStorage.getItem(`stock_${productoId}`));
   if (isNaN(stockActual)) stockActual = productos[index].cantidad;
 
@@ -42,8 +50,28 @@ function agregarAlCarrito(boton) {
     cargarCarrito();
     actualizarContadorCarrito();
   } else {
-    alert("No hay stock disponible");
+    if (Notification.permission === "granted") {
+      stock();
+    } else {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          stock();
+        }
+      });
+    }
   }
+}
+function stock() {
+  new Notification("Error", {
+    body: "No hay stock disponible.",
+    icon: "../public/img/icono_error.png"
+  });
+}
+function producto() {
+  new Notification("Error", {
+    body: "Producto no encontrado.",
+    icon: "../public/img/icono_error.png"
+  });
 }
 
 function cargarCarrito() {
@@ -106,7 +134,7 @@ function eliminarDelCarrito(index) {
 
   localStorage.setItem("carrito", JSON.stringify(carrito));
 
-  
+
   let stockActual = parseInt(localStorage.getItem(`stock_${productoId}`));
   if (isNaN(stockActual)) {
     const productos = JSON.parse(localStorage.getItem("productos")) || [];

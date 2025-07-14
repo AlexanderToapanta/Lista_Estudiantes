@@ -2,32 +2,32 @@ let idProductoSeleccionado = null;
 let productoAEliminar = null;
 const productos = {};
 function abrirModalProducto() {
-    document.getElementById('modalProducto').style.display = 'flex';
+  document.getElementById('modalProducto').style.display = 'flex';
 }
 
 function cerrarModalProducto() {
-    document.getElementById('modalProducto').style.display = 'none';
-    document.getElementById('nombreProducto').value = '';
-    document.getElementById('cantidadProducto').value = '';
-    document.getElementById('precioProducto').value = '';
-    document.getElementById('tipoProducto').value = '';
-    document.getElementById('imagenProducto').value = '';
+  document.getElementById('modalProducto').style.display = 'none';
+  document.getElementById('nombreProducto').value = '';
+  document.getElementById('cantidadProducto').value = '';
+  document.getElementById('precioProducto').value = '';
+  document.getElementById('tipoProducto').value = '';
+  document.getElementById('imagenProducto').value = '';
 }
 
 function imagenA64(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-        reader.readAsDataURL(file);
-    });
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+    reader.readAsDataURL(file);
+  });
 }
 
 function generarIdUnico() {
-    let productos = JSON.parse(localStorage.getItem('productos')) || [];
-    if (productos.length === 0) return '1';
-    const maxId = Math.max(...productos.map(p => parseInt(p.id)));
-    return (maxId + 1).toString();
+  let productos = JSON.parse(localStorage.getItem('productos')) || [];
+  if (productos.length === 0) return '1';
+  const maxId = Math.max(...productos.map(p => parseInt(p.id)));
+  return (maxId + 1).toString();
 }
 
 async function guardarProducto() {
@@ -43,8 +43,15 @@ async function guardarProducto() {
   const file = document.getElementById('imagenProducto').files[0];
 
   if (!nombre || isNaN(cantidad) || cantidad < 0 || isNaN(precio) || precio < 0 || !tipo || !file) {
-    alert('Por favor completa todos los campos correctamente.');
-    return;
+    if (Notification.permission === "granted") {
+      completar_campos();
+    } else {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          completar_campos();
+        }
+      });
+    } return;
   }
 
 
@@ -63,7 +70,7 @@ async function guardarProducto() {
       nombre,
       cantidad,
       precio,
-      tipo, 
+      tipo,
       imagen: imagenBase64
     };
 
@@ -71,43 +78,77 @@ async function guardarProducto() {
     localStorage.setItem('productos', JSON.stringify(productos));
 
     cerrarModalProducto();
-    alert('Producto agregado correctamente.');
+    if (Notification.permission === "granted") {
+      agregado_correctamente();
+    } else {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          agregado_correctamente();
+        }
+      });
+    }
     console.log('Producto guardado en localStorage:', nuevoProducto);
-    
+
 
     if (typeof mostraSegunTipo === "function") {
       mostraSegunTipo();
-    } 
+    }
     mostrarProductosGuardados();
 
   } catch (err) {
     console.error('Error al convertir imagen:', err);
-    alert('Ocurrió un error al guardar el producto.');
+    if (Notification.permission === "granted") {
+      error_guardar_producto();
+    } else {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          error_guardar_producto();
+        }
+      });
+    }
   }
+}
+
+function completar_campos() {
+  new Notification("Error", {
+    body: "Por favor, completa todos los campos requeridos.",
+    icon: "../public/img/icono_error.png" // opcional
+  });
+}
+function agregado_correctamente() {
+  new Notification("Producto agregado", {
+    body: "El producto se ha agregado correctamente.",
+    icon: "../public/img/notification.jpg" // opcional
+  });
+}
+function error_guardar_producto() {
+  new Notification("Error", {
+    body: "Error al guardar el producto.",
+    icon: "../public/img/icono_error.png" // opcional
+  });
 }
 
 
 
 
 
-
 function mostrarProductosGuardados() {
-    console.log("Cargando productos desde localStorage");
+  console.log("Cargando productos desde localStorage");
 
-    const contenedor = document.getElementById("contenedor-productos-dinamicos");
-    if (!contenedor) return;
+  const contenedor = document.getElementById("contenedor-productos-dinamicos");
+  if (!contenedor) return;
 
-    let productos = JSON.parse(localStorage.getItem("productos"));
-    if (!Array.isArray(productos)) productos = [];
+  let productos = JSON.parse(localStorage.getItem("productos"));
+  if (!Array.isArray(productos)) productos = [];
 
-    console.log("Productos recuperados:", productos);
+  console.log("Productos recuperados:", productos);
 
-    if (productos.length === 0) {
-        contenedor.innerHTML = "<p>No hay productos para mostrar.</p>";
-        return;
-    }
+  if (productos.length === 0) {
+    contenedor.innerHTML = "<p>No hay productos para mostrar.</p>";
+    return;
+  }
 
-    contenedor.innerHTML = productos.map(producto => `
+  contenedor.innerHTML = productos.map(producto => `
         <div class="col-md-5">
             <div class="card h-100" id="${producto.id}">
                 <img class="card-img-top" src="${producto.imagen}" alt="${producto.nombre}" />
@@ -135,13 +176,13 @@ function mostrarProductosGuardados() {
 function mostraSegunTipo() {
   const productos = JSON.parse(localStorage.getItem("productos")) || [];
 
-  
+
   const tiposUnicos = [...new Set(productos.map(p => p.tipo.toLowerCase().replace(/\s+/g, "")))];
-  
+
   tiposUnicos.forEach(tipoId => {
     const seccion = document.querySelector(`section#${tipoId} .row`);
     if (seccion) {
-      seccion.innerHTML = ''; 
+      seccion.innerHTML = '';
     }
   });
 
@@ -178,49 +219,71 @@ function mostraSegunTipo() {
 }
 
 
-function abrirModalEliminarProducto(boton){
-    const card = boton.closest('.card');
-    const id = card.id;
-    const nombre = card.querySelector('h5.fw-bolder').textContent;
+function abrirModalEliminarProducto(boton) {
+  const card = boton.closest('.card');
+  const id = card.id;
+  const nombre = card.querySelector('h5.fw-bolder').textContent;
 
-    document.getElementById('idEliminarProducto').value = id;
-    document.getElementById('mensajeEliminarProducto').textContent = `¿Deseas eliminar el producto "${nombre}" (ID: ${id})?`;
-    document.getElementById('modalEliminarProducto').style.display = 'flex';
+  document.getElementById('idEliminarProducto').value = id;
+  document.getElementById('mensajeEliminarProducto').textContent = `¿Deseas eliminar el producto "${nombre}" (ID: ${id})?`;
+  document.getElementById('modalEliminarProducto').style.display = 'flex';
 }
 
 function cerrarModalEliminarProducto() {
-    document.getElementById('modalEliminarProducto').style.display = 'none';
-    document.getElementById('idEliminarProducto').value = '';
-    document.getElementById('mensajeEliminarProducto').textContent = '';
+  document.getElementById('modalEliminarProducto').style.display = 'none';
+  document.getElementById('idEliminarProducto').value = '';
+  document.getElementById('mensajeEliminarProducto').textContent = '';
 }
 
 function eliminarProducto() {
-    const id = document.getElementById('idEliminarProducto').value;
-    if (!id) {
-        alert('ID del producto no válido.');
-        return;
+  const id = document.getElementById('idEliminarProducto').value;
+  if (!id) {
+    if (Notification.permission === "granted") {
+      id_invalido();
+    } else {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          id_invalido();
+        }
+      });
     }
+    return;
+  }
 
-    idProductoAEliminar = id;
-    abrirModalConfirmacion();
+  idProductoAEliminar = id;
+  abrirModalConfirmacion();
+}
+
+function id_invalido() {
+  new Notification("Error", {
+    body: "Error al guardar el producto.",
+    icon: "../public/img/icono_error.png" // opcional
+  });
 }
 
 function abrirModalConfirmacion() {
-    document.getElementById('modalConfirmacionEliminar').style.display = 'flex';
+  document.getElementById('modalConfirmacionEliminar').style.display = 'flex';
 }
 
 function cerrarModalConfirmacion() {
-    document.getElementById('modalConfirmacionEliminar').style.display = 'none';
+  document.getElementById('modalConfirmacionEliminar').style.display = 'none';
 }
 
 function confirmarEliminarProducto() {
-    let productos = JSON.parse(localStorage.getItem('productos')) || [];
-    const index = productos.findIndex(p => p.id === idProductoAEliminar);
+  let productos = JSON.parse(localStorage.getItem('productos')) || [];
+  const index = productos.findIndex(p => p.id === idProductoAEliminar);
 
-    if (index === -1) {
-        alert('Producto no encontrado.');
-        cerrarModalConfirmacion();
-        return;
+  if (index === -1) {
+    if (Notification.permission === "granted") {
+      producto_no_encontrado();
+    } else {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          producto_no_encontrado();
+        }
+      });
+      cerrarModalConfirmacion();
+      return;
     }
 
     productos.splice(index, 1);
@@ -228,13 +291,33 @@ function confirmarEliminarProducto() {
 
     cerrarModalConfirmacion();
     cerrarModalEliminarProducto();
-    alert('Producto eliminado correctamente.');
+    if (Notification.permission === "granted") {
+      producto_eliminado();
+    } else {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          producto_eliminado();
+        }
+      });
 
-    if (typeof mostraSegunTipo === "function") {
+      if (typeof mostraSegunTipo === "function") {
         mostraSegunTipo();
+      }
     }
+  }
 }
-
+function producto_eliminado() {
+  new Notification("Producto eliminado", {
+    body: "El producto se ha eliminado correctamente.",
+    icon: "../public/img/notification.jpg" // opcional
+  });
+}
+function producto_no_encontrado() {
+  new Notification("Error", {
+    body: "Producto no encontrado.",
+    icon: "../public/img/icono_error.png" // opcional
+  });
+}
 function abrirModalActualizarProducto(boton) {
   const card = boton.closest(".card");
   const idProducto = card.id;
@@ -243,11 +326,19 @@ function abrirModalActualizarProducto(boton) {
   const producto = productos.find(p => p.id === idProducto);
 
   if (!producto) {
-    alert("Producto no encontrado.");
+    if (Notification.permission === "granted") {
+      producto_no_encontrado();
+    } else {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          producto_no_encontrado();
+        }
+      });
+    }
     return;
   }
 
- 
+
   idProductoSeleccionado = idProducto;
 
 
@@ -256,20 +347,28 @@ function abrirModalActualizarProducto(boton) {
   document.getElementById('precioActualizarProducto').value = producto.precio;
   document.getElementById('tipoActualizarProducto').value = producto.tipo.toLowerCase();
 
- 
+
   document.getElementById('modalActualizarProducto').style.display = 'flex';
 }
 function cerrarModalActualizarProducto() {
-    document.getElementById('modalActualizarProducto').style.display = 'none';
-    document.getElementById('nombreActualizarProducto').value = ''; 
-    document.getElementById('cantidadActualizarProducto').value = ''; 
-    document.getElementById('precioActualizarProducto').value = ''; 
-    document.getElementById('tipoActualizarProducto').value = ''; 
+  document.getElementById('modalActualizarProducto').style.display = 'none';
+  document.getElementById('nombreActualizarProducto').value = '';
+  document.getElementById('cantidadActualizarProducto').value = '';
+  document.getElementById('precioActualizarProducto').value = '';
+  document.getElementById('tipoActualizarProducto').value = '';
 }
 
 async function actualizarProducto(boton) {
   if (!idProductoSeleccionado) {
-    alert("ID del producto no seleccionado.");
+    if (Notification.permission === "granted") {
+      id_invalido();
+    } else {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          id_invalido();
+        }
+      });
+    }
     return;
   }
 
@@ -280,7 +379,15 @@ async function actualizarProducto(boton) {
   const file = document.getElementById('imagenActualizarProducto').files[0];
 
   if (!nombreActualizar || isNaN(cantidadActualizar) || cantidadActualizar < 0 || isNaN(precioActualizar) || precioActualizar < 0 || !tipoActualizar) {
-    alert('Por favor completa todos los campos correctamente.');
+    if (Notification.permission === "granted") {
+      completar_campos();
+    } else {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          completar_campos();
+        }
+      });
+    }
     return;
   }
 
@@ -288,7 +395,15 @@ async function actualizarProducto(boton) {
   const index = productos.findIndex(p => p.id === idProductoSeleccionado);
 
   if (index === -1) {
-    alert('Producto no encontrado.');
+    if (Notification.permission === "granted") {
+      producto_no_encontrado();
+    } else {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          producto_no_encontrado();
+        }
+      });
+    }
     return;
   }
 
@@ -302,7 +417,15 @@ async function actualizarProducto(boton) {
       productos[index].imagen = await imagenA64(file);
     } catch (err) {
       console.error('Error al convertir imagen:', err);
-      alert('Error al actualizar la imagen.');
+      if (Notification.permission === "granted") {
+        error_guardar_producto();
+      } else {
+        Notification.requestPermission().then(permission => {
+          if (permission === "granted") {
+            error_guardar_producto();
+          }
+        });
+      }
       return;
     }
   }
@@ -310,42 +433,65 @@ async function actualizarProducto(boton) {
   localStorage.setItem('productos', JSON.stringify(productos));
 
   cerrarModalActualizarProducto();
-  alert('Producto actualizado correctamente.');
+  if (Notification.permission === "granted") {
+    producto_actualizado();
+  } else {
+    Notification.requestPermission().then(permission => {
+      if (permission === "granted") {
+        producto_actualizado();
+      }
+    });
 
-  if (typeof mostraSegunTipo === "function") {
-    mostraSegunTipo();
-  }
+    if (typeof mostraSegunTipo === "function") {
+      mostraSegunTipo();
+    }
 
-  if (typeof mostrarProductosGuardados === "function") {
-    mostrarProductosGuardados();
+    if (typeof mostrarProductosGuardados === "function") {
+      mostrarProductosGuardados();
+    }
   }
 }
+function producto_actualizado() {
+  new Notification("Producto actualizado", {
+    body: "El producto se ha actualizado correctamente.",
+    icon: "../public/img/notification.jpg" // opcional
+  });
+}
 
-function buscarProducto() {
-  const criterio = document.getElementById('criterioBusqueda').value;
-  const valor = document.getElementById('valorBusqueda').value.trim().toLowerCase();
-  const contenedor = document.getElementById("contenedor-productos-dinamicos");
 
-  let productos = JSON.parse(localStorage.getItem("productos"));
-  if (!Array.isArray(productos)) productos = [];
+  function buscarProducto() {
+    const criterio = document.getElementById('criterioBusqueda').value;
+    const valor = document.getElementById('valorBusqueda').value.trim().toLowerCase();
+    const contenedor = document.getElementById("contenedor-productos-dinamicos");
 
-  let resultados = [];
+    let productos = JSON.parse(localStorage.getItem("productos"));
+    if (!Array.isArray(productos)) productos = [];
 
-  if (criterio === "id") {
-    resultados = productos.filter(p => p.id.toLowerCase() === valor);
-  } else if (criterio === "nombre") {
-    resultados = productos.filter(p => p.nombre.toLowerCase().includes(valor));
-  } else if (criterio === "tipo") {
-    resultados = productos.filter(p => p.tipo.toLowerCase() === valor);
-  }
+    let resultados = [];
 
-  if (resultados.length === 0) {
-    alert("El producto que busca no existe.");
-    contenedor.innerHTML = "<p>No se encontraron productos.</p>";
-    return;
-  }
+    if (criterio === "id") {
+      resultados = productos.filter(p => p.id.toLowerCase() === valor);
+    } else if (criterio === "nombre") {
+      resultados = productos.filter(p => p.nombre.toLowerCase().includes(valor));
+    } else if (criterio === "tipo") {
+      resultados = productos.filter(p => p.tipo.toLowerCase() === valor);
+    }
 
-  contenedor.innerHTML = resultados.map(producto => `
+    if (resultados.length === 0) {
+      if (Notification.permission === "granted") {
+        producto_no_encontrado();
+      } else {
+        Notification.requestPermission().then(permission => {
+          if (permission === "granted") {
+            producto_no_encontrado();
+          }
+        });
+      }
+      contenedor.innerHTML = "<p>No se encontraron productos.</p>";
+      return;
+    }
+
+    contenedor.innerHTML = resultados.map(producto => `
     <div class="col-md-5">
       <div class="card h-100" id="${producto.id}">
         <img class="card-img-top" src="${producto.imagen}" alt="${producto.nombre}" />
@@ -368,22 +514,22 @@ function buscarProducto() {
       </div>
     </div>
   `).join("");
-}
+  }
 
-function mostrarProductosFijos() {
-  const productos = JSON.parse(localStorage.getItem("productos")) || [];
+  function mostrarProductosFijos() {
+    const productos = JSON.parse(localStorage.getItem("productos")) || [];
 
-  if (productos.length === 0) return;
+    if (productos.length === 0) return;
 
-  const seleccionados = productos.slice(0, 4);
+    const seleccionados = productos.slice(0, 4);
 
-  const contenedor = document.getElementById("productosDestacados");
-  contenedor.innerHTML = "";
+    const contenedor = document.getElementById("productosDestacados");
+    contenedor.innerHTML = "";
 
-  seleccionados.forEach(producto => {
-    const card = document.createElement("div");
-    card.className = "col-md-3 mb-4";
-    card.innerHTML = `
+    seleccionados.forEach(producto => {
+      const card = document.createElement("div");
+      card.className = "col-md-3 mb-4";
+      card.innerHTML = `
       <div class="card h-100">
         <img src="${producto.imagen}" class="card-img-top" alt="${producto.nombre}" />
         <div class="card-body">
@@ -401,9 +547,9 @@ function mostrarProductosFijos() {
         </div>
       </div>
     `;
-    contenedor.appendChild(card);
-  });
-}
+      contenedor.appendChild(card);
+    });
+  }
 
 
 
