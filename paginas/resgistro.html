@@ -1,86 +1,89 @@
-<!DOCTYPE html>
-<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrarse</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="./public/css/registro.css">
 </head>
-<body>
-    <div class="card shadow m-4 p-4">
-        <div class="card-header">
-            <h3>Registrarse</h3>
+
+<div class="card shadow m-4 p-4">
+    <div class="card-header">
+        <h3>Registrarse</h3>
+    </div>
+    <form onsubmit="return false;">
+        <div class="row align-items-center">
+            <div class="col-md-2">
+                <h4>Nombre</h4>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-9">
+                <div class="form-floating mb-3">
+                    <label for="txt_Nombre">Nombre</label>
+                    <input type="text" class="form-control" id="txt_Nombre" placeholder="Nombre" required>
+                </div>
+            </div>
         </div>
-        <form onsubmit="return false;">
-            <div class="row align-items-center">
-                <div class="col-md-2"><h4>Nombre</h4></div>
-                <div class="col-md-1"></div>
-                <div class="col-md-9">
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="txt_Nombre" placeholder="Nombre" required>
-                        <label for="txt_Nombre">Nombre</label>
-                    </div>
+
+        <div class="row align-items-center">
+            <div class="col-md-2">
+                <h4>Apellido</h4>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-9">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="txt_apellido" placeholder="Apellido" required>
+                    <label for="txt_apellido">Apellido</label>
                 </div>
             </div>
+        </div>
 
-            <div class="row align-items-center">
-                <div class="col-md-2"><h4>Apellido</h4></div>
-                <div class="col-md-1"></div>
-                <div class="col-md-9">
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="txt_apellido" placeholder="Apellido" required>
-                        <label for="txt_apellido">Apellido</label>
-                    </div>
+        <div class="row ">
+            <div class="col-md-2">
+                <h4>Correo electrónico</h4>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-9">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="txt_email" placeholder="Correo electrónico" required>
+                    <label for="txt_email">Correo electrónico</label>
                 </div>
             </div>
+        </div>
 
-            <div class="row align-items-center">
-                <div class="col-md-2"><h4>Correo electrónico</h4></div>
-                <div class="col-md-1"></div>
-                <div class="col-md-9">
-                    <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="txt_email" placeholder="Correo electrónico" required>
-                        <label for="txt_email">Correo electrónico</label>
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Foto de usuario</label><br>
+            <button type="button" id="btn_hc" class="btn btn-dark" onclick="habilitar_Camara()">Habilitar
+                cámara</button>
+            <section id="camara_foto" style="display: none;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <video id="my_camara" width="100%" autoplay muted></video>
+                        <button type="button" id="video" onclick="tomarFoto()" class="btn btn-primary mt-2">Tomar
+                            foto</button>
+                    </div>
+                    <div class="col-md-6">
+                        <canvas id="foto" width="420" height="300" style="border: 2px solid black;"></canvas>
                     </div>
                 </div>
-            </div>
+                <input type="hidden" id="foto_usuario" data-id="">
+            </section>
+        </div>
 
-           <div class="mb-3">
-  <label class="form-label fw-semibold">Foto de usuario</label><br>
-  <button type="button" id="btn_hc" class="btn btn-dark" onclick="habilitar_Camara()">Habilitar cámara</button>
-  <section id="camara_foto" style="display: none;">
-    <div class="row">
-      <div class="col-md-6">
-        <video id="my_camara" width="100%" autoplay muted></video>
-        <button type="button" id="video" onclick="tomarFoto()" class="btn btn-primary mt-2">Tomar foto</button>
-      </div>
-      <div class="col-md-6">
-        <canvas id="foto" width="420" height="300" style="border: 2px solid black;"></canvas>
-      </div>
-    </div>
-    <input type="hidden" id="foto_usuario" data-id="">
-  </section>
+
+        <div class="row align-items-center">
+            <div class="col-md-2">
+                <h4>Contraseña</h4>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-9">
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="txt_password" placeholder="Contraseña" required>
+                    <label for="txt_password">Contraseña</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-2">
+                <button class="btn btn-success" type="submit" onclick="guardarUsuario()">Registrarse</button>
+            </div>
+        </div>
+    </form>
 </div>
-
-
-            <div class="row align-items-center">
-                <div class="col-md-2"><h4>Contraseña</h4></div>
-                <div class="col-md-1"></div>
-                <div class="col-md-9">
-                    <div class="form-floating mb-3">
-                        <input type="password" class="form-control" id="txt_password" placeholder="Contraseña" required>
-                        <label for="txt_password">Contraseña</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-md-2">
-                    <button class="btn btn-success" type="submit" onclick="guardarUsuario()">Registrarse</button>
-                </div>
-            </div>
-        </form>
-    </div>
-    
-</body>
-</html>

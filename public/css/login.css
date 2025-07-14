@@ -1,74 +1,121 @@
       
-      body,
-      html {
-          height: 100%;
-          margin: 0;
-          background: linear-gradient(135deg, #f8fafc 0%, #e2eafc 100%);
-      }
+     body,
+html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2eafc 100%);
+}
 
-      .login-background {
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-      }
+.login-background {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
 
-      .login-card {
-          background: #fff;
-          border-radius: 18px;
-          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
-          padding: 2.5rem 2rem 1.5rem 2rem;
-          border: 1.5px solid #e3e3e3;
-          transition: box-shadow 0.3s;
-      }
+.login-card {
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.18);
+    padding: 2.5rem 2rem 1.5rem 2rem;
+    border: 1.5px solid #e3e3e3;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
 
-      .login-card:hover {
-          box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.22);
-      }
+.login-card:hover {
+    box-shadow: 0 12px 40px rgba(31, 38, 135, 0.22);
+    transform: translateY(-2px);
+}
 
-      .card-header {
-          background: none;
-          border-bottom: none;
-          text-align: center;
-      }
+.card-header {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #1e3a8a;
+    margin-bottom: 1.5rem;
+}
 
-      .input-group-text {
-          background: #f3f6fa !important;
-          border-right: 0;
-      }
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
 
-      .form-control:focus {
-          border-color: #0d6efd;
-          box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, .15);
-      }
+.form-control:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    outline: none;
+}
 
-      .btn-login {
-          width: 100%;
-          font-weight: bold;
-          transition: background 0.2s, color 0.2s;
-      }
+.input-group-text {
+    background: #f3f6fa !important;
+    border-right: 0;
+    color: #555;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    font-size: 0.95rem;
+    border-radius: 10px 0 0 10px;
+}
 
-      .btn-login:hover {
-          background: #0d6efd;
-          color: #fff;
-      }
+#passwordToggle {
+    border-left: 0;
+    border-radius: 0 10px 10px 0;
+    background: #f3f6fa;
+    color: #555;
+}
 
-      .login-footer {
-          margin-top: 2rem;
-          text-align: center;
+.btn-login {
+    width: 100%;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.75rem;
+    border-radius: 12px;
+    border: none;
+    background: #3b82f6;
+    color: #ffffff;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-          color: #888;
-      }
+.btn-login:hover {
+    background-color: #2563eb;
+    transform: translateY(-1px);
+}
 
-      .link-accent {
-          color: #0d6efd;
-      }
+.btn-register {
+    width: 100%;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.75rem;
+    border-radius: 12px;
+    border: none;
+    background: #06b6d4;
+    color: #ffffff;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-      .link-accent:hover {
-          color: #0a58ca;
-          text-decoration: underline;
-      }
+.btn-register:hover {
+    background-color: #0891b2;
+    transform: translateY(-1px);
+}
 
-      #passwordToggle {
-          border-left: 0;
-      }
+.login-footer {
+    margin-top: 2rem;
+    text-align: center;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.link-accent {
+    color: #2563eb;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.link-accent:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
