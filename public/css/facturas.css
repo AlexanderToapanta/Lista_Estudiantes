@@ -206,7 +206,7 @@ button.btn-secondary:focus {
   font-size: 1.1rem;
   cursor: pointer;
   border: none;
-  color: white;
+  color: black;
   box-shadow: 0 6px 16px rgba(74,144,226,0.6);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
