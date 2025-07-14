@@ -1,18 +1,9 @@
 let facturasFiltradas = null;
-function verificarMetodoPago(selectElement) {
-  const metodo = selectElement.value;
-  const modal = document.getElementById("tarjeta-modal");
 
-  if (metodo === "tarjeta") {
-    modal.style.display = "block";
-  } else {
-    modal.style.display = "none";
-  }
-}
 function verificarMetodoPago(selectElement) {
   const metodo = selectElement.value;
 
-  
+
   const modalTarjeta = document.getElementById("tarjeta-modal");
   const modalTransferencia = document.getElementById("transferencia-modal");
   const paypalFrame = document.getElementById("paypal-frame");
@@ -22,7 +13,7 @@ function verificarMetodoPago(selectElement) {
   modalTransferencia.style.display = "none";
   paypalFrame.style.display = "none";
 
-  
+
   if (metodo === "tarjeta") {
     modalTarjeta.style.display = "block";
   } else if (metodo === "transferencia") {
@@ -53,13 +44,13 @@ function realizarPago() {
   const longitud = document.getElementById('txt_Longitud').value.trim();
 
   if (!nombre || !apellido || !codigoPostal || !telefono || !latitud || !longitud) {
-    alert("Por favor, complete todos los campos, incluyendo la ubicación.");
+    mostrarMensaje("Por favor, complete todos los campos, incluyendo la ubicación.");
     return;
   }
 
   const usuarioLogueado = JSON.parse(localStorage.getItem("usuarioLogueado"));
   if (!usuarioLogueado || !usuarioLogueado.email) {
-    alert("No hay un usuario logueado.");
+    mostrarMensaje("No hay un usuario logueado.");
     return;
   }
 
@@ -67,7 +58,7 @@ function realizarPago() {
   const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
   if (carrito.length === 0) {
-    alert("El carrito está vacío. Agrega productos antes de pagar.");
+    mostrarMensaje("El carrito está vacío. Agrega productos antes de pagar.");
     return;
   }
 
@@ -89,22 +80,38 @@ function realizarPago() {
 
   facturas.push(factura);
   localStorage.setItem("facturas", JSON.stringify(facturas));
-
-  alert("Pago realizado con éxito. Factura ID: " + nuevoId);
   console.log("Factura guardada:", factura);
-  cargarPaginas('index');
+
+  // Enviar notificación si el pago fue correcto
+  if (Notification.permission === "granted") {
+    crearPago();
+  } else {
+    Notification.requestPermission().then(permission => {
+      if (permission === "granted") {
+        crearPago();
+      }
+    });
+  }
 
   localStorage.removeItem("carrito");
+  cargarPaginas('index');
+}
+
+// Función para mostrar la notificación
+function crearPago() {
+  new Notification("Pago realizado", {
+    body: "Tu pago se ha procesado correctamente. ¡Gracias por tu compra!",
+    icon: "../public/img/notification.jpg" // opcional
+  });
 }
 
 
+function formatearFecha(fechaISO) {
+  const fecha = new Date(fechaISO);
+  return fecha.toLocaleDateString('es-ES');
+}
 
-  function formatearFecha(fechaISO) {
-      const fecha = new Date(fechaISO);
-      return fecha.toLocaleDateString('es-ES');
-    }
-
-    function formatearFecha(fechaISO) {
+function formatearFecha(fechaISO) {
   const fecha = new Date(fechaISO);
   return fecha.toLocaleDateString('es-ES');
 }
@@ -125,10 +132,10 @@ function cargarFacturas() {
 
     const productosHTML = factura.productos && factura.productos.length > 0
       ? `<ul>${factura.productos.map(p => {
-          const totalItem = p.precio * p.cantidad;
-          subtotal += totalItem;
-          return `<li>${p.nombre} — $${p.precio.toFixed(2)} × ${p.cantidad} = $${totalItem.toFixed(2)}</li>`;
-        }).join('')}</ul>`
+        const totalItem = p.precio * p.cantidad;
+        subtotal += totalItem;
+        return `<li>${p.nombre} — $${p.precio.toFixed(2)} × ${p.cantidad} = $${totalItem.toFixed(2)}</li>`;
+      }).join('')}</ul>`
       : '<p>No hay productos registrados.</p>';
 
     const iva = subtotal * 0.15;
@@ -199,7 +206,7 @@ function cargarFacturas() {
     contenedor.insertAdjacentHTML('beforeend', html);
   });
 
-  
+
   facturas.forEach(factura => {
     Mapa(factura.id);
   });
@@ -213,7 +220,7 @@ function buscarFacturas() {
   const facturas = JSON.parse(localStorage.getItem('facturas')) || [];
 
   if (!valor) {
-    alert("Por favor, ingrese un valor para buscar.");
+    mostrarMensaje("Por favor, ingrese un valor para buscar.");
     return;
   }
 
@@ -223,7 +230,7 @@ function buscarFacturas() {
   });
 
   if (facturasFiltradas.length === 0) {
-    alert("El producto que busca no existe.");
+    mostrarMensaje("El producto que busca no existe.");
   }
 
   mostrarFacturas(facturasFiltradas);
@@ -245,10 +252,10 @@ function mostrarFacturas(facturas) {
 
     const productosHTML = factura.productos && factura.productos.length > 0
       ? `<ul>${factura.productos.map(p => {
-          const totalItem = p.precio * p.cantidad;
-          subtotal += totalItem;
-          return `<li>${p.nombre} — $${p.precio.toFixed(2)} × ${p.cantidad} = $${totalItem.toFixed(2)}</li>`;
-        }).join('')}</ul>`
+        const totalItem = p.precio * p.cantidad;
+        subtotal += totalItem;
+        return `<li>${p.nombre} — $${p.precio.toFixed(2)} × ${p.cantidad} = $${totalItem.toFixed(2)}</li>`;
+      }).join('')}</ul>`
       : '<p>No hay productos registrados.</p>';
 
     const iva = subtotal * 0.15;
@@ -319,7 +326,7 @@ function mostrarFacturas(facturas) {
     contenedor.insertAdjacentHTML('beforeend', html);
   });
 
-  
+
   facturas.forEach(factura => {
     Mapa(factura.id);
   });
@@ -351,13 +358,13 @@ function exportarFacturas(formato) {
   const facturas = facturasFiltradas || JSON.parse(localStorage.getItem('facturas')) || [];
 
   if (facturas.length === 0) {
-    alert("No hay facturas para exportar.");
+    mostrarMensaje("No hay facturas para exportar.");
     return;
   }
 
   if (formato === 'pdf') {
     const { jsPDF } = window.jspdf;
-    if (!jsPDF) return alert("jsPDF no está disponible.");
+    if (!jsPDF) return mostrarMensaje("jsPDF no está disponible.");
     const doc = new jsPDF();
     doc.setFontSize(12);
     doc.text("Listado de Facturas", 10, 10);
@@ -412,66 +419,97 @@ function descargarArchivo(blob, nombreArchivo) {
 }
 
 function Localizacion() {
-    let geolocation = navigator.geolocation;
-    if (geolocation) {
-        geolocation.getCurrentPosition(function (posiciones) {
-            let latitud = posiciones.coords.latitude;
-            let longitud = posiciones.coords.longitude;
-            document.getElementById('txt_Latitud').value = latitud;
-            document.getElementById('txt_Longitud').value = longitud;
+  let geolocation = navigator.geolocation;
+  if (geolocation) {
+    geolocation.getCurrentPosition(function (posiciones) {
+      let latitud = posiciones.coords.latitude;
+      let longitud = posiciones.coords.longitude;
+      document.getElementById('txt_Latitud').value = latitud;
+      document.getElementById('txt_Longitud').value = longitud;
 
-            latitud = parseFloat(latitud);
-            longitud = parseFloat(longitud);
+      latitud = parseFloat(latitud);
+      longitud = parseFloat(longitud);
 
-            var map = L.map('map').setView([latitud, longitud], 13);
+      var map = L.map('map').setView([latitud, longitud], 13);
 
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            }).addTo(map);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
 
-            L.marker([latitud, longitud])
-                .addTo(map)
-                .bindPopup('Su ubicación actual es')
-                .openPopup();
+      L.marker([latitud, longitud])
+        .addTo(map)
+        .bindPopup('Su ubicación actual es')
+        .openPopup();
 
-        });
-    } else {
-        alert('No soporta la geolocation api')
-    }
+    });
+  } else {
+    mostrarMensaje('No soporta la geolocation api');
+  }
 }
 
 function Mapa(id) {
-    const facturas = JSON.parse(localStorage.getItem('facturas')) || [];
-    const factura = facturas.find(f => f.id === id);
+  const facturas = JSON.parse(localStorage.getItem('facturas')) || [];
+  const factura = facturas.find(f => f.id === id);
 
-    if (!factura) {
-        alert('Factura no encontrada');
-        return;
-    }
+  if (!factura) {
+    mostrarMensaje('Factura no encontrada');
+    return;
+  }
 
-    const latitud = parseFloat(factura.latitud);
-    const longitud = parseFloat(factura.longitud);
+  const latitud = parseFloat(factura.latitud);
+  const longitud = parseFloat(factura.longitud);
 
-    const mapaId = `map-${id}`;
-    const contenedor = document.getElementById(mapaId);
+  const mapaId = `map-${id}`;
+  const contenedor = document.getElementById(mapaId);
 
-    if (!contenedor) {
-        console.warn(`Contenedor con ID '${mapaId}' no encontrado.`);
-        return;
-    }
+  if (!contenedor) {
+    console.warn(`Contenedor con ID '${mapaId}' no encontrado.`);
+    return;
+  }
 
-    contenedor.innerHTML = '';
+  contenedor.innerHTML = '';
 
-    const map = L.map(mapaId).setView([latitud, longitud], 13);
+  const map = L.map(mapaId).setView([latitud, longitud], 13);
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
 
-    L.marker([latitud, longitud])
-        .addTo(map)
-        .bindPopup(`Ubicación de ${factura.nombre} ${factura.apellido}`)
-        .openPopup();
+  L.marker([latitud, longitud])
+    .addTo(map)
+    .bindPopup(`Ubicación de ${factura.nombre} ${factura.apellido}`)
+    .openPopup();
+}
+
+function mostrarMensaje(texto, tipo = "info") {
+  const contenedor = document.getElementById("mensajes");
+
+  const colores = {
+    info: "#007bff",
+    success: "#28a745",
+    warning: "#ffc107",
+    danger: "#dc3545"
+  };
+
+  const card = document.createElement("div");
+  card.style.background = colores[tipo] || colores.info;
+  card.style.color = "#fff";
+  card.style.padding = "10px 15px";
+  card.style.marginTop = "10px";
+  card.style.borderRadius = "5px";
+  card.style.boxShadow = "0 2px 5px rgba(0,0,0,0.2)";
+  card.style.minWidth = "250px";
+  card.innerHTML = `
+    <strong>${texto}</strong>
+    <span style="float:right; cursor:pointer;" onclick="this.parentElement.remove()">&times;</span>
+  `;
+
+  contenedor.appendChild(card);
+
+  // Desaparece a los 5 segundos
+  setTimeout(() => {
+    card.remove();
+  }, 5000);
 }

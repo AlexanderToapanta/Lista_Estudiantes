@@ -1,0 +1,243 @@
+/* Reset y base */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #cce7ff; /* azul cielo suave */
+  font-family: Arial, sans-serif;
+  color: #1a3d7c; /* azul oscuro moderado */
+  margin: 0;
+  padding: 2rem 1rem;
+  line-height: 1.5;
+}
+
+/* Contenedor principal */
+#compras-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #e6f2ff; /* celeste muy claro */
+  border-radius: 12px;
+  border: 1px solid #99c2ff;
+  box-shadow: 0 8px 25px rgba(74, 144, 226, 0.15);
+  transition: box-shadow 0.3s ease;
+}
+
+#compras-container:hover {
+  box-shadow: 0 15px 45px rgba(74, 144, 226, 0.3);
+}
+
+/* Barra de búsqueda (adaptada al div que contiene select, input, botones) */
+#compras-container > .container > .row > .col-md-9 > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+#criterioBusquedaFactura,
+#valorBusquedaFactura {
+  border: 1px solid #99c2ff;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 1rem;
+  color: #1a3d7c;
+  background: white;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+  max-width: 200px;
+  min-width: 150px;
+}
+
+#valorBusquedaFactura {
+  max-width: 300px;
+  flex-grow: 1;
+}
+
+#criterioBusquedaFactura:focus,
+#valorBusquedaFactura:focus {
+  outline: none;
+  box-shadow: 0 0 8px 2px #4a90e2;
+  background: #e6f2ff;
+  color: #1a3d7c;
+}
+
+/* Botones Buscar y Limpiar */
+#compras-container > .container > .row > .col-md-9 > div > button.btn-success,
+#compras-container > .container > .row > .col-md-9 > div > button.btn-secondary {
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(74,144,226,0.35);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  min-width: 100px;
+}
+
+/* Buscar */
+button.btn-success {
+  background-color: #4a90e2;
+  color: white;
+}
+
+button.btn-success:hover,
+button.btn-success:focus {
+  background-color: #2a5dad;
+  box-shadow: 0 6px 18px rgba(42,93,173,0.7);
+}
+
+/* Limpiar */
+button.btn-secondary {
+  background-color: #a0bff9;
+  color: #1a3d7c;
+}
+
+button.btn-secondary:hover,
+button.btn-secondary:focus {
+  background-color: #7aa0e3;
+  color: white;
+  box-shadow: 0 6px 18px rgba(42,93,173,0.5);
+}
+
+/* Botón Exportar (lado derecho) */
+.col-md-3 > button.btn-primary {
+  background-color: #2a5dad;
+  color: white;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(42,93,173,0.6);
+  border: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  max-width: 150px;
+  margin: 0 auto;
+}
+
+.col-md-3 > button.btn-primary:hover,
+.col-md-3 > button.btn-primary:focus {
+  background-color: #1a3d7c;
+  box-shadow: 0 8px 25px rgba(26,61,124,0.8);
+}
+
+/* Listado de facturas */
+#facturas-listado {
+  min-height: 150px;
+  font-size: 1rem;
+  color: #1a3d7c;
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  border: 1px solid #99c2ff;
+  box-shadow: inset 0 0 8px rgba(74,144,226,0.15);
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+/* Modal de Exportación */
+#modal-exportar {
+  display: none;
+  position: fixed;
+  z-index: 1050;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(74,144,226,0.8);
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.3s ease;
+}
+
+#modal-exportar.show {
+  display: flex;
+  opacity: 1;
+}
+
+.modal-contenido {
+  background: #e6f2ff;
+  padding: 2.5rem 3rem;
+  border-radius: 14px;
+  max-width: 440px;
+  width: 90%;
+  box-shadow: 0 10px 35px rgba(74,144,226,0.4);
+  text-align: center;
+  position: relative;
+  color: #1a3d7c;
+  font-weight: 600;
+  font-size: 1.2rem;
+  user-select: none;
+}
+
+.cerrar {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #4a90e2;
+  transition: color 0.3s ease;
+  user-select: none;
+}
+
+.cerrar:hover,
+.cerrar:focus {
+  color: #2a5dad;
+}
+
+/* Botones de formato dentro del modal */
+.botones-formato {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.botones-formato button {
+  width: 110px;
+  border-radius: 10px;
+  font-weight: 700;
+  padding: 0.7rem 0;
+  font-size: 1.1rem;
+  cursor: pointer;
+  border: none;
+  color: white;
+  box-shadow: 0 6px 16px rgba(74,144,226,0.6);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-pdf {
+  background-color: #e74c3c;
+}
+
+.btn-pdf:hover,
+.btn-pdf:focus {
+  background-color: #c0392b;
+  box-shadow: 0 8px 20px rgba(192,57,43,0.7);
+}
+
+.btn-excel {
+  background-color: #27ae60;
+}
+
+.btn-excel:hover,
+.btn-excel:focus {
+  background-color: #1e8449;
+  box-shadow: 0 8px 20px rgba(30,132,73,0.7);
+}
+
+.btn-word {
+  background-color: #2980b9;
+}
+
+.btn-word:hover,
+.btn-word:focus {
+  background-color: #1c5980;
+  box-shadow: 0 8px 20px rgba(28,89,128,0.7);
+}
+

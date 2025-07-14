@@ -1,3 +1,4 @@
+/* ========== SECCIÓN DE CONTACTO CON FONDO ========= */
 #contacto {
   position: relative;
   background: url('../img/fndcont.jpg') center center / cover no-repeat fixed;
@@ -6,6 +7,7 @@
   overflow: hidden;
 }
 
+/* Capa azul encima del fondo */
 #contacto::before {
   content: "";
   position: absolute;
@@ -13,16 +15,18 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 24, 61, 0.85); 
+  background: rgba(0, 24, 61, 0.85); /* azul oscuro con opacidad */
   z-index: 1;
 }
 
+/* Todo el contenido queda encima de la capa */
 #contacto .container {
   position: relative;
   z-index: 2;
 }
 
 
+/* ======== ENCABEZADO ========= */
 #contacto h2 {
   color: #ffffff;
   font-weight: 800;
@@ -44,6 +48,7 @@
   color: #d6e8ff;
 }
 
+/* Logo */
 #contacto img[alt="Logo"] {
   filter: drop-shadow(0 0 5px #00ccff);
   transition: transform 0.3s ease-in-out;
@@ -52,7 +57,7 @@
   transform: scale(1.05);
 }
 
-
+/* ======== CARD DE FORMULARIO ========= */
 #contactCard {
   background-color: #ffffff;
   color: #001b3a;
@@ -66,7 +71,7 @@
   transform: translateY(-5px);
 }
 
-
+/* ======== LABELS E INPUTS ========= */
 #contactCard label {
   font-weight: 600;
   color: #002e5f;
@@ -91,7 +96,7 @@
   outline: none;
 }
 
-
+/* ======== MENSAJES DE VALIDACIÓN ========= */
 #contactCard p[id^="ms_"] {
   margin-top: 5px;
   font-size: 0.9rem;
@@ -107,7 +112,7 @@
   color: #cc0000;
 }
 
-
+/* ======== BOTÓN DE ENVÍO ========= */
 #submitButton {
   background: linear-gradient(to right, #0077cc, #005fa3);
   color: white;
@@ -124,6 +129,7 @@
   transform: scale(1.03);
 }
 
+/* ======== REDES SOCIALES ========= */
 #contacto h2 + ul {
   margin-top: 1rem;
 }
@@ -141,7 +147,7 @@
   box-shadow: 0 0 15px rgba(0, 170, 255, 0.9);
 }
 
-
+/* ======== RESPONSIVE ========= */
 @media (max-width: 576px) {
   #contactCard {
     padding: 25px 20px;

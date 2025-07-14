@@ -1,80 +1,7 @@
-
-
- <style>
-        body,
-        html {
-            height: 100%;
-            margin: 0;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2eafc 100%);
-        }
-
-        .login-background {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .login-card {
-            background: #fff;
-            border-radius: 18px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
-            padding: 2.5rem 2rem 1.5rem 2rem;
-            border: 1.5px solid #e3e3e3;
-            transition: box-shadow 0.3s;
-        }
-
-        .login-card:hover {
-            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.22);
-        }
-
-        .card-header {
-            background: none;
-            border-bottom: none;
-            text-align: center;
-        }
-
-        .input-group-text {
-            background: #f3f6fa !important;
-            border-right: 0;
-        }
-
-        .form-control:focus {
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, .15);
-        }
-
-        .btn-login {
-            width: 100%;
-            font-weight: bold;
-            transition: background 0.2s, color 0.2s;
-        }
-
-        .btn-login:hover {
-            background: #0d6efd;
-            color: #fff;
-        }
-
-        .login-footer {
-            margin-top: 2rem;
-            text-align: center;
-            color: #888;
-        }
-
-        .link-accent {
-            color: #0d6efd;
-        }
-
-        .link-accent:hover {
-            color: #0a58ca;
-            text-decoration: underline;
-        }
-
-        #passwordToggle {
-            border-left: 0;
-        }
-    </style>
+<head>
+  <link rel="stylesheet" href="../public/css/login.css">
 </head>
+
 <body class="login-background">
   <div class="login-card">
     <div class="card-header">
@@ -99,5 +26,4 @@
       </div>
     </form>
   </div>
-
-
+</body>
