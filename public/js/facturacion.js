@@ -42,9 +42,10 @@ function realizarPago() {
   const telefono = document.getElementById('telefono').value.trim();
   const latitud = document.getElementById('txt_Latitud').value.trim();
   const longitud = document.getElementById('txt_Longitud').value.trim();
+  const metodoPago = document.getElementById('payment-method').value;
 
-  if (!nombre || !apellido || !codigoPostal || !telefono || !latitud || !longitud) {
-    mostrarMensaje("Por favor, complete todos los campos, incluyendo la ubicación.");
+  if (!nombre || !apellido || !codigoPostal || !telefono || !latitud || !longitud || !metodoPago) {
+    mostrarMensaje("Por favor, complete todos los campos, incluyendo la ubicación y el método de pago.");
     return;
   }
 
@@ -74,6 +75,7 @@ function realizarPago() {
     email,
     latitud: parseFloat(latitud),
     longitud: parseFloat(longitud),
+    metodoPago,
     fecha: new Date().toISOString(),
     productos: carrito
   };
@@ -95,6 +97,8 @@ function realizarPago() {
   localStorage.removeItem("carrito");
   cargarPaginas('index');
 }
+
+
 
 // Función para mostrar la notificación
 function crearPago() {
@@ -149,39 +153,44 @@ function cargarFacturas() {
         </div>
 
         <div class="compra-row">
-          <span class="compra-label">Fecha</span>
+          <span class="compra-label">Fecha:</span>
           <span class="compra-value">${formatearFecha(factura.fecha)}</span>
         </div>
 
         <div class="compra-row">
-          <span class="compra-label">Nombre</span>
+          <span class="compra-label">Nombre:</span>
           <span class="compra-value">${nombreCompleto}</span>
         </div>
 
         <div class="compra-row">
-          <span class="compra-label">Código postal</span>
+          <span class="compra-label">Código postal:</span>
           <span class="compra-value">${factura.codigoPostal}</span>
         </div>
 
         <div class="compra-row">
-          <span class="compra-label">Teléfono</span>
+          <span class="compra-label">Teléfono:</span>
           <span class="compra-value">${factura.telefono}</span>
         </div>
 
         <div class="compra-row">
-          <span class="compra-label">Email</span>
+          <span class="compra-label">Email:</span>
           <span class="compra-value">${factura.email}</span>
         </div>
 
         <div class="compra-row">
-          <span class="compra-label">Ubicación</span>
-          <span class="compra-value">Lat: ${factura.latitud}, Long: ${factura.longitud}</span>
+          <span class="compra-label">Método de pago:</span>
+          <span class="compra-value">${factura.metodoPago || ''}</span>
+        </div>
+
+        <div class="compra-row">
+          <span class="compra-label">Ubicación:</span>
+          
         </div>
 
         <div id="${mapaId}" style="height: 300px; margin: 10px 0;"></div>
 
         <div class="compra-row">
-          <span class="compra-label">Productos comprados</span>
+          <span class="compra-label">Productos comprados:</span>
           <span class="compra-value">${productosHTML}</span>
         </div>
 
@@ -204,7 +213,6 @@ function cargarFacturas() {
 
     contenedor.insertAdjacentHTML('beforeend', html);
   });
-
 
   facturas.forEach(factura => {
     Mapa(factura.id);
@@ -223,41 +231,42 @@ function buscarFacturas() {
     return;
   }
 
-  facturasFiltradas = facturas.filter(factura => {
+  const facturasFiltradas = facturas.filter(factura => {
+    if (!factura.hasOwnProperty(criterio)) return false;
     const campo = factura[criterio]?.toString().toLowerCase();
     return campo && campo.includes(valor);
   });
 
   if (facturasFiltradas.length === 0) {
-    mostrarMensaje("El producto que busca no existe.");
+    mostrarMensaje("No se encontraron facturas que coincidan.");
+    return;
   }
 
   mostrarFacturas(facturasFiltradas);
 }
-function mostrarFacturas(facturas) {
-  const contenedor = document.getElementById("facturas-listado");
-  if (!contenedor) return;
 
+function mostrarFacturas(lista) {
+  const contenedor = document.getElementById('facturas-listado');
   contenedor.innerHTML = '';
 
-  if (facturas.length === 0) {
-    contenedor.innerHTML = "<p>No se encontraron facturas.</p>";
+  if (lista.length === 0) {
+    contenedor.innerHTML = '<p>No se encontraron facturas.</p>';
     return;
   }
 
-  facturas.forEach(factura => {
+  lista.forEach(factura => {
     const nombreCompleto = `${factura.nombre} ${factura.apellido}`;
     let subtotal = 0;
 
     const productosHTML = factura.productos && factura.productos.length > 0
       ? `<ul>${factura.productos.map(p => {
-        const totalItem = p.precio * p.cantidad;
-        subtotal += totalItem;
-        return `<li>${p.nombre} — $${p.precio.toFixed(2)} × ${p.cantidad} = $${totalItem.toFixed(2)}</li>`;
-      }).join('')}</ul>`
+          const totalItem = p.precio * p.cantidad;
+          subtotal += totalItem;
+          return `<li>${p.nombre} — $${p.precio.toFixed(2)} × ${p.cantidad} = $${totalItem.toFixed(2)}</li>`;
+        }).join('')}</ul>`
       : '<p>No hay productos registrados.</p>';
 
-    const iva = subtotal * 0.15;
+    const iva   = subtotal * 0.15;
     const total = subtotal + iva;
     const mapaId = `map-${factura.id}`;
 
@@ -269,54 +278,59 @@ function mostrarFacturas(facturas) {
         </div>
 
         <div class="compra-row">
-          <span class="compra-label">Fecha</span>
+          <span class="compra-label">Fecha:</span>
           <span class="compra-value">${formatearFecha(factura.fecha)}</span>
         </div>
 
         <div class="compra-row">
-          <span class="compra-label">Nombre</span>
+          <span class="compra-label">Nombre:</span>
           <span class="compra-value">${nombreCompleto}</span>
         </div>
 
         <div class="compra-row">
-          <span class="compra-label">Código postal</span>
+          <span class="compra-label">Código postal:</span>
           <span class="compra-value">${factura.codigoPostal}</span>
         </div>
 
         <div class="compra-row">
-          <span class="compra-label">Teléfono</span>
+          <span class="compra-label">Teléfono:</span>
           <span class="compra-value">${factura.telefono}</span>
         </div>
 
         <div class="compra-row">
-          <span class="compra-label">Email</span>
+          <span class="compra-label">Email:</span>
           <span class="compra-value">${factura.email}</span>
         </div>
 
         <div class="compra-row">
-          <span class="compra-label">Ubicación</span>
-          <span class="compra-value">Lat: ${factura.latitud}, Long: ${factura.longitud}</span>
+          <span class="compra-label">Método de pago:</span>
+          <span class="compra-value">${factura.metodoPago || ''}</span>
+        </div>
+
+        <div class="compra-row">
+          <span class="compra-label">Ubicación:</span>
+          
         </div>
 
         <div id="${mapaId}" style="height: 300px; margin: 10px 0;"></div>
 
         <div class="compra-row">
-          <span class="compra-label">Productos comprados</span>
+          <span class="compra-label">Productos comprados:</span>
           <span class="compra-value">${productosHTML}</span>
         </div>
 
         <div class="compra-row" style="font-weight:bold;">
-          <span class="compra-label">Subtotal</span>
+          <span class="compra-label">Subtotal:</span>
           <span class="compra-value">$${subtotal.toFixed(2)}</span>
         </div>
 
         <div class="compra-row" style="font-weight:bold;">
-          <span class="compra-label">IVA (15%)</span>
+          <span class="compra-label">IVA (15%):</span>
           <span class="compra-value">$${iva.toFixed(2)}</span>
         </div>
 
         <div class="compra-row" style="font-weight:bold;">
-          <span class="compra-label">Total</span>
+          <span class="compra-label">Total:</span>
           <span class="compra-value">$${total.toFixed(2)}</span>
         </div>
       </div>
@@ -325,11 +339,11 @@ function mostrarFacturas(facturas) {
     contenedor.insertAdjacentHTML('beforeend', html);
   });
 
-
-  facturas.forEach(factura => {
+  lista.forEach(factura => {
     Mapa(factura.id);
   });
 }
+
 
 
 

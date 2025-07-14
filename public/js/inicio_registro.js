@@ -121,7 +121,13 @@ function Login() {
   }
 }
 
-
+function comprobarlogin(){
+  if(sesionActiva){
+    cargarPaginas('facturacion');
+  }else{
+    alert('Para poder pasar al pago, debe iniciar sesion')
+  }
+}
 
 
 function habilitar_Camara() {
