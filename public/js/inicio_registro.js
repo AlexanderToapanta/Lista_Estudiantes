@@ -9,7 +9,16 @@ function guardarUsuario() {
   const idFotoUsuario = document.getElementById("foto_usuario").value;
 
   if (!nombre || !apellido || !email || !password || !idFotoUsuario) {
-    alert("Por favor, complete todos los campos, incluyendo la foto.");
+
+    if (Notification.permission === "granted") {
+      completarCampos();
+    } else {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          completarCampos();
+        }
+      });
+    }
     return;
   }
 
@@ -19,6 +28,15 @@ function guardarUsuario() {
 
   if (adminEmails.includes(email)) {
     alert("Este correo ya está registrado.");
+    if (Notification.permission === "granted") {
+      correoregistrado();
+    } else {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          correoregistrado();
+        }
+      });
+    }
     return;
   }
 
@@ -54,6 +72,18 @@ function guardarUsuario() {
   console.log(persona)
   deshabilitar_Camara();
   cargarPaginas('Login');
+}
+function completarCampos() {
+  new Notification("Error", {
+    body: "Complete todos los campos.",
+    icon: "../public/img/icono_error.png"
+  });
+}
+function correoregistrado() {
+  new Notification("Error", {
+    body: "Este correo ya esta utilizado.",
+    icon: "../public/img/icono_error.png"
+  });
 }
 function registro() {
   new Notification("Registro exitoso", {
@@ -121,14 +151,29 @@ function Login() {
   }
 }
 
-function comprobarlogin(){
-  if(sesionActiva){
+function comprobarlogin() {
+  if (sesionActiva) {
     cargarPaginas('facturacion');
-  }else{
-    alert('Para poder pasar al pago, debe iniciar sesion')
+  } else {
+    console.log('Para poder pasar al pago, debe iniciar sesion');
+    if (Notification.permission === "granted") {
+      iniciar_sesion();
+    } else {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          iniciar_sesion();
+        }
+      });
+    }
   }
 }
 
+function  iniciar_sesion() {
+  new Notification("Error", {
+    body: "Para poder pasar al pago, debe iniciar sesion.",
+    icon: "../public/img/icono_error.png"
+  });
+}
 
 function habilitar_Camara() {
   document.getElementById('camara_foto').style.display = 'inline-block';
