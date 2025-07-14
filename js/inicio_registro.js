@@ -1,5 +1,6 @@
 let stream;
 let correoUsuarioAEliminar = "";
+
 function guardarUsuario() {
   const nombre = document.getElementById("txt_Nombre").value.trim();
   const apellido = document.getElementById("txt_apellido").value.trim();
@@ -40,10 +41,25 @@ function guardarUsuario() {
   personas.push(persona);
   localStorage.setItem("personas", JSON.stringify(personas));
 
-  alert("Registro exitoso. Ahora puede iniciar sesión.");
+
+  if (Notification.permission === "granted") {
+    registro();
+  } else {
+    Notification.requestPermission().then(permission => {
+      if (permission === "granted") {
+        registro();
+      }
+    });
+  }
   console.log(persona)
   deshabilitar_Camara();
   cargarPaginas('Login');
+}
+function registro() {
+  new Notification("Registro exitoso", {
+    body: "Te has registrado correctamente. ¡Bienvenido!",
+    icon: "../public/img/notification.jpg" // opcional
+  });
 }
 
 
@@ -53,7 +69,7 @@ function CerrarSesion() {
 
   document.getElementById('btn_Login').style.display = 'inline-block';
 
-  
+
   document.getElementById('li_admin_dropdown').style.display = 'none';
 
   document.getElementById('li_usuario_dropdown').style.display = 'none';
@@ -61,7 +77,7 @@ function CerrarSesion() {
 
   if (typeof cargarPaginas === 'function') {
     cargarPaginas('index');
-  } 
+  }
 
 }
 function Login() {
@@ -75,69 +91,69 @@ function Login() {
     sesionActiva = true;
     alert("Inicio de sesión como Administrador ");
     document.getElementById('btn_Login').style.display = 'none';
-   document.getElementById('li_admin_dropdown').style.display = 'inline-block';
+    document.getElementById('li_admin_dropdown').style.display = 'inline-block';
     cargarPaginas('index');
     return;
   }
 
- 
+
   const personas = JSON.parse(localStorage.getItem("personas")) || [];
   const persona = personas.find(p => p.email === email && p.password === password);
 
-if (persona) {
-  sesionActiva = true;
-  alert(`Bienvenido, ${persona.nombre}`);
-  localStorage.setItem("usuarioLogueado", JSON.stringify(persona));
-  document.getElementById('btn_Login').style.display = 'none';
+  if (persona) {
+    sesionActiva = true;
+    alert(`Bienvenido, ${persona.nombre}`);
+    localStorage.setItem("usuarioLogueado", JSON.stringify(persona));
+    document.getElementById('btn_Login').style.display = 'none';
 
-  
-  const usuarioDropdown = document.getElementById('navbarDropdown_usuario');
-  usuarioDropdown.style.display = 'inline-block';  
-  usuarioDropdown.textContent = persona.email;    
 
-  document.getElementById('li_usuario_dropdown').style.display = 'inline-block';
-  cargarPaginas('index');
-} else {
-  alert("Correo o contraseña incorrectos.");
-  emailInput.value = '';
-  passwordInput.value = '';
-  emailInput.focus();
-}
+    const usuarioDropdown = document.getElementById('navbarDropdown_usuario');
+    usuarioDropdown.style.display = 'inline-block';
+    usuarioDropdown.textContent = persona.email;
+
+    document.getElementById('li_usuario_dropdown').style.display = 'inline-block';
+    cargarPaginas('index');
+  } else {
+    alert("Correo o contraseña incorrectos.");
+    emailInput.value = '';
+    passwordInput.value = '';
+    emailInput.focus();
+  }
 }
 
 
 
 
 function habilitar_Camara() {
-    document.getElementById('camara_foto').style.display = 'inline-block';
-    document.getElementById('btn_hc').style.display = 'none';
+  document.getElementById('camara_foto').style.display = 'inline-block';
+  document.getElementById('btn_hc').style.display = 'none';
 
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then(s => {
-            stream = s;
-            document.getElementById('my_camara').srcObject = stream;
-        })
-        .catch(error => {
-            console.log(error);
-        });
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(s => {
+      stream = s;
+      document.getElementById('my_camara').srcObject = stream;
+    })
+    .catch(error => {
+      console.log(error);
+    });
 }
 
 function deshabilitar_Camara() {
-    if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-        document.getElementById('my_camara').srcObject = null;
-        document.getElementById('camara_foto').style.display = 'none';
-        document.getElementById('btn_hc').style.display = 'inline-block';
-    }
+  if (stream) {
+    stream.getTracks().forEach(track => track.stop());
+    document.getElementById('my_camara').srcObject = null;
+    document.getElementById('camara_foto').style.display = 'none';
+    document.getElementById('btn_hc').style.display = 'inline-block';
+  }
 }
 
 function tomarFoto() {
-    const video = document.getElementById('my_camara');
-    const canvas = document.getElementById('foto');
-    const ctx = canvas.getContext('2d');
+  const video = document.getElementById('my_camara');
+  const canvas = document.getElementById('foto');
+  const ctx = canvas.getContext('2d');
 
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    GuardarImagen(canvas);
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  GuardarImagen(canvas);
 }
 
 function GuardarImagen(canvas) {

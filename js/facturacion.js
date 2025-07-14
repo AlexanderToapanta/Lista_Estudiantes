@@ -82,7 +82,6 @@ function realizarPago() {
   localStorage.setItem("facturas", JSON.stringify(facturas));
   console.log("Factura guardada:", factura);
 
-  // Enviar notificación si el pago fue correcto
   if (Notification.permission === "granted") {
     crearPago();
   } else {
