@@ -273,7 +273,7 @@ function confirmarEliminarProducto() {
   let productos = JSON.parse(localStorage.getItem('productos')) || [];
   const index = productos.findIndex(p => p.id === idProductoAEliminar);
 
-  if (index === -1) {
+   if (index === -1) {
     if (Notification.permission === "granted") {
       producto_no_encontrado();
     } else {
@@ -282,9 +282,12 @@ function confirmarEliminarProducto() {
           producto_no_encontrado();
         }
       });
-      cerrarModalConfirmacion();
-      return;
     }
+
+    cerrarModalConfirmacion();  
+    return;
+  }
+
 
     productos.splice(index, 1);
     localStorage.setItem('productos', JSON.stringify(productos));
@@ -305,158 +308,158 @@ function confirmarEliminarProducto() {
       }
     }
   }
-}
-function producto_eliminado() {
-  new Notification("Producto eliminado", {
-    body: "El producto se ha eliminado correctamente.",
-    icon: "../public/img/notification.jpg" // opcional
-  });
-}
-function producto_no_encontrado() {
-  new Notification("Error", {
-    body: "Producto no encontrado.",
-    icon: "../public/img/icono_error.png" // opcional
-  });
-}
-function abrirModalActualizarProducto(boton) {
-  const card = boton.closest(".card");
-  const idProducto = card.id;
 
-  const productos = JSON.parse(localStorage.getItem("productos")) || [];
-  const producto = productos.find(p => p.id === idProducto);
-
-  if (!producto) {
-    if (Notification.permission === "granted") {
-      producto_no_encontrado();
-    } else {
-      Notification.requestPermission().then(permission => {
-        if (permission === "granted") {
-          producto_no_encontrado();
-        }
-      });
-    }
-    return;
+  function producto_eliminado() {
+    new Notification("Producto eliminado", {
+      body: "El producto se ha eliminado correctamente.",
+      icon: "../public/img/notification.jpg" // opcional
+    });
   }
-
-
-  idProductoSeleccionado = idProducto;
-
-
-  document.getElementById('nombreActualizarProducto').value = producto.nombre;
-  document.getElementById('cantidadActualizarProducto').value = producto.cantidad;
-  document.getElementById('precioActualizarProducto').value = producto.precio;
-  document.getElementById('tipoActualizarProducto').value = producto.tipo.toLowerCase();
-
-
-  document.getElementById('modalActualizarProducto').style.display = 'flex';
-}
-function cerrarModalActualizarProducto() {
-  document.getElementById('modalActualizarProducto').style.display = 'none';
-  document.getElementById('nombreActualizarProducto').value = '';
-  document.getElementById('cantidadActualizarProducto').value = '';
-  document.getElementById('precioActualizarProducto').value = '';
-  document.getElementById('tipoActualizarProducto').value = '';
-}
-
-async function actualizarProducto(boton) {
-  if (!idProductoSeleccionado) {
-    if (Notification.permission === "granted") {
-      id_invalido();
-    } else {
-      Notification.requestPermission().then(permission => {
-        if (permission === "granted") {
-          id_invalido();
-        }
-      });
-    }
-    return;
+  function producto_no_encontrado() {
+    new Notification("Error", {
+      body: "Producto no encontrado.",
+      icon: "../public/img/icono_error.png" // opcional
+    });
   }
+  function abrirModalActualizarProducto(boton) {
+    const card = boton.closest(".card");
+    const idProducto = card.id;
 
-  const nombreActualizar = document.getElementById('nombreActualizarProducto').value.trim();
-  const cantidadActualizar = parseInt(document.getElementById('cantidadActualizarProducto').value);
-  const precioActualizar = parseFloat(document.getElementById('precioActualizarProducto').value);
-  const tipoActualizar = document.getElementById('tipoActualizarProducto').value.trim().toLowerCase();
-  const file = document.getElementById('imagenActualizarProducto').files[0];
+    const productos = JSON.parse(localStorage.getItem("productos")) || [];
+    const producto = productos.find(p => p.id === idProducto);
 
-  if (!nombreActualizar || isNaN(cantidadActualizar) || cantidadActualizar < 0 || isNaN(precioActualizar) || precioActualizar < 0 || !tipoActualizar) {
-    if (Notification.permission === "granted") {
-      completar_campos();
-    } else {
-      Notification.requestPermission().then(permission => {
-        if (permission === "granted") {
-          completar_campos();
-        }
-      });
-    }
-    return;
-  }
-
-  let productos = JSON.parse(localStorage.getItem('productos')) || [];
-  const index = productos.findIndex(p => p.id === idProductoSeleccionado);
-
-  if (index === -1) {
-    if (Notification.permission === "granted") {
-      producto_no_encontrado();
-    } else {
-      Notification.requestPermission().then(permission => {
-        if (permission === "granted") {
-          producto_no_encontrado();
-        }
-      });
-    }
-    return;
-  }
-
-  productos[index].nombre = nombreActualizar;
-  productos[index].cantidad = cantidadActualizar;
-  productos[index].precio = precioActualizar;
-  productos[index].tipo = tipoActualizar;
-
-  if (file) {
-    try {
-      productos[index].imagen = await imagenA64(file);
-    } catch (err) {
-      console.error('Error al convertir imagen:', err);
+    if (!producto) {
       if (Notification.permission === "granted") {
-        error_guardar_producto();
+        producto_no_encontrado();
       } else {
         Notification.requestPermission().then(permission => {
           if (permission === "granted") {
-            error_guardar_producto();
+            producto_no_encontrado();
           }
         });
       }
       return;
     }
+
+
+    idProductoSeleccionado = idProducto;
+
+
+    document.getElementById('nombreActualizarProducto').value = producto.nombre;
+    document.getElementById('cantidadActualizarProducto').value = producto.cantidad;
+    document.getElementById('precioActualizarProducto').value = producto.precio;
+    document.getElementById('tipoActualizarProducto').value = producto.tipo.toLowerCase();
+
+
+    document.getElementById('modalActualizarProducto').style.display = 'flex';
+  }
+  function cerrarModalActualizarProducto() {
+    document.getElementById('modalActualizarProducto').style.display = 'none';
+    document.getElementById('nombreActualizarProducto').value = '';
+    document.getElementById('cantidadActualizarProducto').value = '';
+    document.getElementById('precioActualizarProducto').value = '';
+    document.getElementById('tipoActualizarProducto').value = '';
   }
 
-  localStorage.setItem('productos', JSON.stringify(productos));
-
-  cerrarModalActualizarProducto();
-  if (Notification.permission === "granted") {
-    producto_actualizado();
-  } else {
-    Notification.requestPermission().then(permission => {
-      if (permission === "granted") {
-        producto_actualizado();
+  async function actualizarProducto(boton) {
+    if (!idProductoSeleccionado) {
+      if (Notification.permission === "granted") {
+        id_invalido();
+      } else {
+        Notification.requestPermission().then(permission => {
+          if (permission === "granted") {
+            id_invalido();
+          }
+        });
       }
-    });
-
-    if (typeof mostraSegunTipo === "function") {
-      mostraSegunTipo();
+      return;
     }
 
-    if (typeof mostrarProductosGuardados === "function") {
-      mostrarProductosGuardados();
+    const nombreActualizar = document.getElementById('nombreActualizarProducto').value.trim();
+    const cantidadActualizar = parseInt(document.getElementById('cantidadActualizarProducto').value);
+    const precioActualizar = parseFloat(document.getElementById('precioActualizarProducto').value);
+    const tipoActualizar = document.getElementById('tipoActualizarProducto').value.trim().toLowerCase();
+    const file = document.getElementById('imagenActualizarProducto').files[0];
+
+    if (!nombreActualizar || isNaN(cantidadActualizar) || cantidadActualizar < 0 || isNaN(precioActualizar) || precioActualizar < 0 || !tipoActualizar) {
+      if (Notification.permission === "granted") {
+        completar_campos();
+      } else {
+        Notification.requestPermission().then(permission => {
+          if (permission === "granted") {
+            completar_campos();
+          }
+        });
+      }
+      return;
+    }
+
+    let productos = JSON.parse(localStorage.getItem('productos')) || [];
+    const index = productos.findIndex(p => p.id === idProductoSeleccionado);
+
+    if (index === -1) {
+      if (Notification.permission === "granted") {
+        producto_no_encontrado();
+      } else {
+        Notification.requestPermission().then(permission => {
+          if (permission === "granted") {
+            producto_no_encontrado();
+          }
+        });
+      }
+      return;
+    }
+
+    productos[index].nombre = nombreActualizar;
+    productos[index].cantidad = cantidadActualizar;
+    productos[index].precio = precioActualizar;
+    productos[index].tipo = tipoActualizar;
+
+    if (file) {
+      try {
+        productos[index].imagen = await imagenA64(file);
+      } catch (err) {
+        console.error('Error al convertir imagen:', err);
+        if (Notification.permission === "granted") {
+          error_guardar_producto();
+        } else {
+          Notification.requestPermission().then(permission => {
+            if (permission === "granted") {
+              error_guardar_producto();
+            }
+          });
+        }
+        return;
+      }
+    }
+
+    localStorage.setItem('productos', JSON.stringify(productos));
+
+    cerrarModalActualizarProducto();
+    if (Notification.permission === "granted") {
+      producto_actualizado();
+    } else {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          producto_actualizado();
+        }
+      });
+
+      if (typeof mostraSegunTipo === "function") {
+        mostraSegunTipo();
+      }
+
+      if (typeof mostrarProductosGuardados === "function") {
+        mostrarProductosGuardados();
+      }
     }
   }
-}
-function producto_actualizado() {
-  new Notification("Producto actualizado", {
-    body: "El producto se ha actualizado correctamente.",
-    icon: "../public/img/notification.jpg" // opcional
-  });
-}
+  function producto_actualizado() {
+    new Notification("Producto actualizado", {
+      body: "El producto se ha actualizado correctamente.",
+      icon: "../public/img/notification.jpg" // opcional
+    });
+  }
 
 
   function buscarProducto() {
